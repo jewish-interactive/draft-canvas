@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+        "module": "commonjs",
+        "noImplicitAny": false, //would be nice to enable this...
+		"removeComments": false,
+		"preserveConstEnums": true,
+		"sourceMap": true,
+        "declaration": true,
+        "declarationDir": "dist/typings",
+		"moduleResolution": "node",
+        "diagnostics": true,
+        "jsx": "react",
+        "lib": [
+            "es6",
+            "es5",
+            "dom"
+        ]
+	},
+	"files": [
+		"./src/lib/Lib.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "build",
+        "coverage"
+    ]
+}
