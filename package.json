@@ -6,8 +6,13 @@
   "module": "dist/draft-canvas.esm.js",
   "typings": "./dist/typings/lib/Lib.d.ts",
   "scripts": {
+    "clean:all": "npm-run-all clean clean:example",
+    "build:all": "npm-run-all build build:example",
     "clean": "rimraf ./dist",
     "build": "npm-run-all clean rollup:build",
+    "build:example": "npm-run-all clean:example _build:example",
+    "_build:example": "cd example && npm run build",
+    "clean:example": "cd example && npm run clean",
     "dev": "npm-run-all -s clean -p rollup:watch",
     "rollup:build": "cross-env NODE_ENV=production rollup -c",
     "rollup:watch": "cross-env NODE_ENV=production rollup -c -w",
