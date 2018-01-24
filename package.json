@@ -6,6 +6,7 @@
   "module": "dist/draft-canvas.esm.js",
   "typings": "./dist/typings/lib/Lib.d.ts",
   "scripts": {
+    "install:example": "cd example && npm install",
     "clean:all": "npm-run-all clean clean:example",
     "build:all": "npm-run-all build build:example",
     "clean": "rimraf ./dist",
