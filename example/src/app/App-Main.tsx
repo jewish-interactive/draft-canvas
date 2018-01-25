@@ -11,10 +11,7 @@ declare global {
 }
 
 const App = () => (
-    <div>
-        <h1>Hello World</h1>
-        <DraftCanvas />
-    </div>
+    <DraftCanvas />
 )
 
 ReactDOM.render(<App />, document.getElementById("app"));
