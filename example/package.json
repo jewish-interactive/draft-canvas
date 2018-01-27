@@ -64,10 +64,7 @@
   },
   "dependencies": {
     "draft-js": "0.10.5",
-    "gl-matrix": "^2.4.0",
-    "ramda": "^0.25.0",
     "react": "16.2.0",
-    "react-dom": "16.2.0",
-    "sanctuary": "0.14.1"
+    "react-dom": "16.2.0"
   }
 }

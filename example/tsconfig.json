@@ -11,8 +11,6 @@
               "lib/*": ["../src/lib/*"],
         },
         "outDir": "dist/tsc",
-        "noImplicitAny": false,
-        "preserveConstEnums": true,
         "sourceMap": true,
         "target": "es5",
         "jsx": "react",
