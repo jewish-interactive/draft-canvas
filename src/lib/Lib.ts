@@ -1,2 +1,2 @@
 export * from "./utils/Utils";
-export * from "./components/Components";
+export * from "./components/DraftCanvas";
