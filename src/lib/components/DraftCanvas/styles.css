@@ -1,8 +1,8 @@
 .container {
-  display: flex;
-  padding: 20px;
   height: 75%;
-  justify-content: space-around;
-  border: 1px solid #f1f1f1;
+  padding: 20px;
+  display: flex;
   border-radius: 5px;
+  border: 1px solid #f1f1f1;
+  justify-content: space-around;
 }

@@ -1,3 +1,8 @@
+import { EditorState, convertToRaw } from 'draft-js';
+
+/**
+ * The function will return array with details of style applicable to each character in the block.
+ */
 function getStyleArrayForBlock(block) {
   const { text, inlineStyleRanges } = block;
   let styleArray = [];
@@ -16,7 +21,10 @@ function getStyleArrayForBlock(block) {
   return styleArray;
 }
 
-function sameStyleAsPrevious(styleArray, index) {
+/**
+ * Function will check if styles applicable on a character are same as that on previous character.
+ */
+const sameStyleAsPrevious = (styleArray, index) => {
   if (index === 0) {
     return false;
   }
@@ -29,6 +37,9 @@ function sameStyleAsPrevious(styleArray, index) {
   );
 }
 
+/**
+ * The function returns array of sections in a block which have same style.
+ */
 export const getStyleSections = (block) => {
   const styleSections = [];
   const { text } = block;
@@ -52,3 +63,32 @@ export const getStyleSections = (block) => {
   });
   return styleSections;
 }
+
+const isHebrew = str => {
+  var char = str.trim()[0];
+  var position = char && char.search(/[\u0590-\u05FF]/);
+  return position >= 0;
+}
+
+export const getAlignmentForBlock = (text: string) => {
+  if (isHebrew(text)) {
+    return { direction: 'right', x: 500};
+  } else {
+    return { direction: 'left', x: 0};
+  }
+}
+
+export const getBlockArray = 
+  (editorState: EditorState): any => convertToRaw(editorState.getCurrentContent()).blocks;
+
+export const getCanvasTextStyle = styles => {
+  let fontStyle = "16px Verdana, Geneva, Tahoma, sans-serif";
+  if(styles.BOLD) {
+    fontStyle = `bold ${fontStyle}`;
+  }
+  if(styles.ITALIC) {
+    fontStyle = `italic ${fontStyle}`;
+  }
+  return fontStyle;
+}
+  

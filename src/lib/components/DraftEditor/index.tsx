@@ -16,6 +16,9 @@ export interface Props {
 export interface State {
 }
 
+/**
+ * Editor component with DeraftJS Editor component as child.
+ */
 export class DraftEditor extends Component<Props, State> {
   editor: DraftEditor = undefined;
 

@@ -12,6 +12,9 @@ export interface State {
   editorState: EditorState;
 }
 
+/**
+ * Root component with DraftJS editor and Canvas components as children.
+ */
 export class DraftCanvas extends Component {
   state = {
     editorState: EditorState.createEmpty()
