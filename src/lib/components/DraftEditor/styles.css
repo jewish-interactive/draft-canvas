@@ -1,0 +1,7 @@
+.editor-container {
+  height: 500px;
+  width: 500px;
+  font-size: 16px;
+  font: Verdana, Geneva, Tahoma, sans-serif;
+  border: 1px solid #f1f1f1;
+}
