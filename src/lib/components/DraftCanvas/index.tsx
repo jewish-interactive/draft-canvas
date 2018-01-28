@@ -3,6 +3,7 @@ import { Component } from "react";
 import { EditorState } from 'draft-js';
 import { DraftEditor } from '../DraftEditor';
 import { Canvas } from '../Canvas';
+import Close from '../../../icons/close';
 import './styles.css';
 
 export interface Props {
@@ -17,24 +18,35 @@ export interface State {
  */
 export class DraftCanvas extends Component {
   state = {
-    editorState: EditorState.createEmpty()
+    editorState: EditorState.createEmpty(),
+    hidden: false
   }
 
   onChange = editorState => {
     this.setState({ editorState });
   }
 
+  hideEditor = () => {
+    this.setState({hidden: true});
+  }
+
   render() {
-    const { editorState } = this.state;
+    const { editorState, hidden } = this.state;
+    if (hidden) {
+      return null;
+    }
     return (
       <div className="container">
-        <DraftEditor
-          editorState={editorState}
-          onChange={this.onChange}
-        />
-        <Canvas
-          editorState={editorState}
-        />
+        <div className="editor-wrapper">
+          <Close onClick={this.hideEditor} />
+          <DraftEditor
+            editorState={editorState}
+            onChange={this.onChange}
+          />
+          <Canvas
+            editorState={editorState}
+          />
+        </div>
       </div>
     )
   }

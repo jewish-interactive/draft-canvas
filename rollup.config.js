@@ -20,7 +20,7 @@ export default [
             }),
             typescript({
                 useTsconfigDeclarationDir: true
-            }),
+            })
         ]
 	}
 ];
