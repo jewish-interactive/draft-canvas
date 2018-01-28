@@ -48,6 +48,6 @@ export class DraftCanvas extends Component {
           />
         </div>
       </div>
-    )
+    );
   }
 }

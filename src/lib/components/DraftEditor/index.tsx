@@ -6,6 +6,7 @@ import {
   RichUtils,
 } from 'draft-js';
 import './styles.css';
+import { Toolbar } from '../Toolbar';
 import '../../../../node_modules/draft-js/dist/Draft.css';
 
 export interface Props {
@@ -43,14 +44,17 @@ export class DraftEditor extends Component<Props, State> {
   render() {
     const { editorState, onChange } = this.props;
     return (
-      <div className="editor-container" onClick={this.focusEditor}>
-        <Editor
-          ref={this.setEditorReference}
-          handleKeyCommand={this.handleKeyCommand}
-          editorState={editorState}
-          onChange={onChange}
-        />
+      <div>
+        <Toolbar editorState={editorState} onChange={onChange}/>
+        <div className="editor-container" onClick={this.focusEditor}>
+          <Editor
+            ref={this.setEditorReference}
+            handleKeyCommand={this.handleKeyCommand}
+            editorState={editorState}
+            onChange={onChange}
+          />
+        </div>
       </div>
-    )
+    );
   }
 }
