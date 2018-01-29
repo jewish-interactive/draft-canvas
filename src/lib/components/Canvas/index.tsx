@@ -32,7 +32,11 @@ export class Canvas extends Component<Props, State> {
         styleSections.forEach(section => {
           ctx.font = getCanvasTextStyle(section.styles);
           ctx.fillText(section.text, x, y);
-          x += (direction === 'left' ? 1 : -1) * ctx.measureText(section.text).width;
+          const textWidth = ctx.measureText(section.text).width;
+          if (section.styles.UNDERLINE) {
+            ctx.fillRect(x, y + 1, textWidth, 1);
+          }
+          x += (direction === 'left' ? 1 : -1) * textWidth;
         });
         y += 19;
       })
