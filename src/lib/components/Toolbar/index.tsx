@@ -8,6 +8,9 @@ import {
 import Bold from '../../../icons/bold';
 import Italic from '../../../icons/italic';
 import Underline from '../../../icons/underline';
+import AlignLeft from '../../../icons/alignLeft';
+import AlignRight from '../../../icons/alignRight';
+import AlignCenter from '../../../icons/alignCenter';
 import './styles.css';
 
 export interface Props {
@@ -42,6 +45,11 @@ export class Toolbar extends Component<Props, State> {
         <button name="BOLD" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><Bold /></button>
         <button name="ITALIC" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><Italic /></button>
         <button name="UNDERLINE" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><Underline /></button>
+        <div className="toolbar-separator" />
+        <button name="left" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><AlignLeft /></button>
+        <button name="center" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><AlignCenter /></button>
+        <button name="right" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><AlignRight /></button>
+        <div className="toolbar-separator" />
       </div>
     );
   }

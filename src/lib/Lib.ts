@@ -6,4 +6,5 @@ export * from "./components/DraftCanvas";
  * - underline will be more complex.
  * - setting max-height of deraft editor.
  * - are keyboard shortcuts a requirement ?
+ * - should related options be grouped in drop-down ?
  */

@@ -21,3 +21,11 @@
 .toolbar-icon:focus {
   outline: none;
 }
+.toolbar-separator {
+  display: inline-block;
+  margin-right: 10px;
+  width: 0;
+  border-right: 1px solid #f1f1f1;
+  height: 30px;
+  margin-left: 5px;
+}
