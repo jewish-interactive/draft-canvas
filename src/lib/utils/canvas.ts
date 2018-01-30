@@ -70,8 +70,18 @@ const isHebrew = str => {
   return position >= 0;
 }
 
-export const getAlignmentForBlock = (text: string) => {
-  if (isHebrew(text)) {
+export const getAlignmentForBlock = (block) => {
+  if (block.data['text-align']) {
+    const direction = block.data['text-align'];
+    let x = 0;
+    if (direction === 'right') {
+      x = 500;
+    } else if (direction === 'center') {
+      x = 250;
+    }
+    return { direction, x };
+  }
+  if (isHebrew(block.text)) {
     return { direction: 'right', x: 500};
   } else {
     return { direction: 'left', x: 0};

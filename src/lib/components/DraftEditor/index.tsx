@@ -7,6 +7,7 @@ import {
 } from 'draft-js';
 import './styles.css';
 import { Toolbar } from '../Toolbar';
+import { blockStyleFn } from '../../utils/block-style';
 import '../../../../node_modules/draft-js/dist/Draft.css';
 
 export interface Props {
@@ -46,9 +47,10 @@ export class DraftEditor extends Component<Props, State> {
     return (
       <div>
         <Toolbar editorState={editorState} onChange={onChange}/>
-        <div className="editor-container" onClick={this.focusEditor}>
+        <div className="dce-editor-container" onClick={this.focusEditor}>
           <Editor
             ref={this.setEditorReference}
+            blockStyleFn={blockStyleFn}
             handleKeyCommand={this.handleKeyCommand}
             editorState={editorState}
             onChange={onChange}

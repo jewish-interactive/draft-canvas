@@ -5,6 +5,7 @@ import {
   EditorState,
   RichUtils,
 } from 'draft-js';
+import { getSelectedBlocksMetadata, setBlockData } from 'draftjs-utils';
 import Bold from '../../../icons/bold';
 import Italic from '../../../icons/italic';
 import Underline from '../../../icons/underline';
@@ -38,18 +39,29 @@ export class Toolbar extends Component<Props, State> {
     }
   };
 
+  addBlockAlignmentData = (event) => {
+    const { editorState, onChange } = this.props;
+    const currentTextAlignment = getSelectedBlocksMetadata(editorState).get('text-align');
+    const textAlignment = event.currentTarget.name;
+    if (currentTextAlignment !== textAlignment) {
+      onChange(setBlockData(editorState, { 'text-align': textAlignment }));
+    } else {
+      onChange(setBlockData(editorState, { 'text-align': undefined }));
+    }
+  }
+
   render() {
     const { editorState, onChange } = this.props;
     return (
-      <div className="toolbar">
-        <button name="BOLD" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><Bold /></button>
-        <button name="ITALIC" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><Italic /></button>
-        <button name="UNDERLINE" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><Underline /></button>
-        <div className="toolbar-separator" />
-        <button name="left" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><AlignLeft /></button>
-        <button name="center" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><AlignCenter /></button>
-        <button name="right" className="toolbar-icon" onMouseDown={this.toggleInlineStyle}><AlignRight /></button>
-        <div className="toolbar-separator" />
+      <div className="dce-toolbar">
+        <button name="BOLD" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Bold /></button>
+        <button name="ITALIC" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Italic /></button>
+        <button name="UNDERLINE" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Underline /></button>
+        <div className="dce-toolbar-separator" />
+        <button name="left" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignLeft /></button>
+        <button name="center" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignCenter /></button>
+        <button name="right" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignRight /></button>
+        <div className="dce-toolbar-separator" />
       </div>
     );
   }

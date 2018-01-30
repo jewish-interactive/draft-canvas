@@ -36,8 +36,8 @@ export class DraftCanvas extends Component {
       return null;
     }
     return (
-      <div className="container">
-        <div className="editor-wrapper">
+      <div className="dce-container">
+        <div className="dce-editor-wrapper">
           <Close onClick={this.hideEditor} />
           <DraftEditor
             editorState={editorState}

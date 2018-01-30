@@ -5,7 +5,7 @@ const alignCenter = () => (
         <title>align-center</title>
         <desc>Created with Sketch.</desc>
         <defs></defs>
-        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g id="align-center" fill="#000000">
                 <g id="Group">
                     <path d="M11.5558696,14.8871739 L3.38804348,14.8871739 C3.20804348,14.8871739 3.06195652,14.741087 3.06195652,14.561087 C3.06195652,14.381087 3.20804348,14.235 3.38804348,14.235 L11.5552174,14.235 C11.7352174,14.235 11.8813043,14.381087 11.8813043,14.561087 C11.8813043,14.741087 11.7358696,14.8871739 11.5558696,14.8871739 L11.5558696,14.8871739 Z" id="Shape"></path>

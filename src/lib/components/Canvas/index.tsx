@@ -26,7 +26,7 @@ export class Canvas extends Component<Props, State> {
 
       let y = 16;
       blocks.forEach(block => {
-        let { x, direction } = getAlignmentForBlock(block.text);
+        let { x, direction } = getAlignmentForBlock(block);
         ctx.textAlign = direction;
         const styleSections = getStyleSections(block);
         styleSections.forEach(section => {
@@ -46,12 +46,12 @@ export class Canvas extends Component<Props, State> {
   render() {
     const { editorState } = this.props;
     return (
-      <div className="canvas-container">
+      <div className="dce-canvas-container">
         <canvas
           id="canvas"
           height="500"
           width="500"
-          className="canvas"
+          className="dce-canvas"
         >
         </canvas>
       </div>

@@ -1,4 +1,4 @@
-.container {
+.dce-container {
   width: 100%;
   height: 100%;
   display: flex;
@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
 }
-.editor-wrapper {
+.dce-editor-wrapper {
   height: 555px;
   padding: 20px;
   display: flex;
