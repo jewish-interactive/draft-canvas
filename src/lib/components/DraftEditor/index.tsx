@@ -5,10 +5,11 @@ import {
   EditorState,
   RichUtils,
 } from 'draft-js';
-import './styles.css';
+import { getCustomStyleMap } from 'draftjs-utils';
 import { Toolbar } from '../Toolbar';
 import { blockStyleFn } from '../../utils/block-style';
 import '../../../../node_modules/draft-js/dist/Draft.css';
+import './styles.css';
 
 export interface Props {
   editorState: EditorState;
@@ -50,6 +51,7 @@ export class DraftEditor extends Component<Props, State> {
         <div className="dce-editor-container" onClick={this.focusEditor}>
           <Editor
             ref={this.setEditorReference}
+            customStyleMap={getCustomStyleMap()}
             blockStyleFn={blockStyleFn}
             handleKeyCommand={this.handleKeyCommand}
             editorState={editorState}
