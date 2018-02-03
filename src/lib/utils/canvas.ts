@@ -13,8 +13,17 @@ function getStyleArrayForBlock(block) {
       inlineStyleRanges.forEach((range) => {
         const offset = range.offset;
         const length = offset + range.length;
+        let styleName;
+        let styleValue = true;
+        if (range.style.indexOf('fontfamily') === 0) {
+          styleName = 'fontfamily';
+          styleValue = range.style.substr(11);
+        } else {
+          styleName = range.style;
+          styleValue = true;
+        }
         for (let i = offset; i < length; i += 1) {
-          styleArray[i][range.style] = true;
+          styleArray[i][styleName] = styleValue;
         }
       });
   }
@@ -92,7 +101,7 @@ export const getBlockArray =
   (editorState: EditorState): any => convertToRaw(editorState.getCurrentContent()).blocks;
 
 export const getCanvasTextStyle = styles => {
-  let fontStyle = "16px Verdana, Geneva, Tahoma, sans-serif";
+  let fontStyle = `16px ${styles.fontfamily || 'Verdana, Geneva, Tahoma, sans-serif'}`;
   if(styles.BOLD) {
     fontStyle = `bold ${fontStyle}`;
   }

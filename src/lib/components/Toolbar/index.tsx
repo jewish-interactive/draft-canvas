@@ -6,6 +6,7 @@ import {
   RichUtils,
 } from 'draft-js';
 import { getSelectedBlocksMetadata, setBlockData } from 'draftjs-utils';
+import FontFamily from './FontFamily';
 import Bold from '../../../icons/bold';
 import Italic from '../../../icons/italic';
 import Underline from '../../../icons/underline';
@@ -62,6 +63,7 @@ export class Toolbar extends Component<Props, State> {
         <button name="center" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignCenter /></button>
         <button name="right" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignRight /></button>
         <div className="dce-toolbar-separator" />
+        <FontFamily editorState={editorState} onChange={onChange}/>
       </div>
     );
   }

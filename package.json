@@ -62,6 +62,7 @@
     "uglify-es": "3.3.8"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "draft-js": "0.10.5",
     "draftjs-utils": "^0.9.1",
     "react": "16.2.0",
