@@ -5,10 +5,7 @@ import {
   EditorState,
   RichUtils,
 } from 'draft-js';
-import {
-  toggleCustomInlineStyle,
-  getSelectionCustomInlineStyle,
-} from 'draftjs-utils';
+import * as DraftJSUtils from 'draftjs-utils';
 import { Dropdown, Option } from '../../Dropdown';
 import './styles.css';
 
@@ -28,7 +25,11 @@ export default class FontFamily extends Component<Props, State> {
   componentWillMount(): void {
     const { editorState } = this.props;
     this.setState({
-      currentFontFamily: getSelectionCustomInlineStyle(editorState, ['FONTFAMILY']).FONTFAMILY,
+      currentFontFamily: 
+        DraftJSUtils.getSelectionCustomInlineStyle(
+          editorState,
+          ['FONTFAMILY']
+        ).FONTFAMILY,
     });
   }
 
@@ -36,7 +37,7 @@ export default class FontFamily extends Component<Props, State> {
     const { currentFontFamily } = this.state;
     const { editorState, onChange } = this.props;
     const newFontFamily = currentFontFamily === fontFamily ? '' : fontFamily;
-    const newState = toggleCustomInlineStyle(
+    const newState = DraftJSUtils.toggleCustomInlineStyle(
       editorState,
       'fontFamily',
       newFontFamily,

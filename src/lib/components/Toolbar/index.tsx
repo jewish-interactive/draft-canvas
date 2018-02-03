@@ -5,7 +5,7 @@ import {
   EditorState,
   RichUtils,
 } from 'draft-js';
-import { getSelectedBlocksMetadata, setBlockData } from 'draftjs-utils';
+import * as DraftJSUtils from 'draftjs-utils';
 import FontFamily from './FontFamily';
 import Bold from '../../../icons/bold';
 import Italic from '../../../icons/italic';
@@ -42,12 +42,12 @@ export class Toolbar extends Component<Props, State> {
 
   addBlockAlignmentData = (event) => {
     const { editorState, onChange } = this.props;
-    const currentTextAlignment = getSelectedBlocksMetadata(editorState).get('text-align');
+    const currentTextAlignment = DraftJSUtils.getSelectedBlocksMetadata(editorState).get('text-align');
     const textAlignment = event.currentTarget.name;
     if (currentTextAlignment !== textAlignment) {
-      onChange(setBlockData(editorState, { 'text-align': textAlignment }));
+      onChange(DraftJSUtils.setBlockData(editorState, { 'text-align': textAlignment }));
     } else {
-      onChange(setBlockData(editorState, { 'text-align': undefined }));
+      onChange(DraftJSUtils.setBlockData(editorState, { 'text-align': undefined }));
     }
   }
 
