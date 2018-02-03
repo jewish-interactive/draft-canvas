@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { PureComponent } from "react";
-import PropTypes from 'prop-types';
 import './styles.css';
 
 const classNames = require('classnames');
@@ -8,57 +7,42 @@ const classNames = require('classnames');
 export interface Props {
   children: any,
   value: any,
-  onClick?: Function,
   onSelect?: Function,
   setHighlighted?: Function,
   index?: number,
-  disabled?: boolean,
-  active?: boolean,
+  selectedValue?: any,
   highlighted?: boolean,
 }
 
 export default class Option extends PureComponent<Props, any> {
-  onClick = (event) => {
-    const { onSelect, onClick, value, disabled } = this.props;
-    if (!disabled) {
-      if (onSelect) {
-        onSelect(value);
-      }
-      if (onClick) {
-        event.stopPropagation();
-        onClick(value);
-      }
-    }
+  onClick = () => {
+    const { onSelect, value } = this.props;
+    onSelect(value);
   };
 
   setHighlighted = () => {
     const { setHighlighted, index } = this.props;
-    if (setHighlighted) {
-      setHighlighted(index);
-    }
+    setHighlighted(index);
   };
 
   resetHighlighted = () => {
     const { setHighlighted } = this.props;
-    if (setHighlighted) {
-      setHighlighted(-1);
-    }
+    setHighlighted(-1);
   };
 
   render(): Object {
     const {
       children,
-      active,
-      disabled,
       highlighted,
+      selectedValue,
+      value
     } = this.props;
     return (
       <li
         className={classNames(
-          'rdw-dropdownoption-default', {
-            'rdw-dropdownoption-active': active,
-            'rdw-dropdownoption-highlighted': highlighted,
-            'rdw-dropdownoption-disabled': disabled,
+          'cde-dropdownoption-default', {
+            'cde-dropdownoption-highlighted': highlighted,
+            'cde-dropdownoption-selected': selectedValue === value,
           })
         }
         onMouseEnter={this.setHighlighted}

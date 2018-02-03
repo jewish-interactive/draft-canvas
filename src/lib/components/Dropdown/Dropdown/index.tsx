@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Component } from "react";
-import PropTypes from 'prop-types';
 import './styles.css';
 
 const classNames = require('classnames');
@@ -8,6 +7,8 @@ const classNames = require('classnames');
 export interface Props {
   children: any;
   onChange: Function;
+  label: string;
+  selectedValue?: any;
 }
 
 export interface State {
@@ -22,28 +23,32 @@ export default class Dropdown extends Component<Props, State> {
   };
 
   onChange = (value) => {
-    const { onChange } = this.props;
-    if (onChange) {
-      onChange(value);
-    }
-    this.setState({ expanded: false });
+    this.props.onChange(value);
+    this.toggleExpanded();
+  };
+
+  toggleExpanded = () => {
+    this.setState({ expanded: !this.state.expanded });
   };
 
   setHighlighted = (highlighted: number) => {
     this.setState({ highlighted });
   };
 
+  preventDefault = (event) => {
+    event.preventDefault();
+  }
+
   render() {
-    console.log('classNames', classNames)
-    const { children } = this.props;
+    const { children, label, selectedValue } = this.props;
     const { highlighted, expanded } = this.state;
-    const options = children.slice(1, children.length);
     return (
-      <div className="cde-dropdown-wrapper">
+      <div className="cde-dropdown-wrapper" onMouseDown={this.preventDefault}>
         <a
-          className="cde-dropdown-selectedtext"
+          className="cde-dropdown-label"
+          onClick={this.toggleExpanded}
         >
-          {children[0]}
+          {label}
           <div
             className={classNames({
               'cde-dropdown-carettoclose': expanded,
@@ -51,21 +56,22 @@ export default class Dropdown extends Component<Props, State> {
             })}
           />
         </a>
-        {expanded ?
+        {expanded &&
           <ul className="cde-dropdown-optionwrapper">
             {
-              React.Children.map(options, (option: any, index) => {
+              React.Children.map(children, (option: any, index) => {
                 const temp = option && React.cloneElement(
                   option, {
                     onSelect: this.onChange,
                     highlighted: highlighted === index,
                     setHighlighted: this.setHighlighted,
+                    selectedValue,
                     index,
                   });
                 return temp;
               })
             }
-          </ul> : undefined}
+          </ul>}
       </div>
     );
   }

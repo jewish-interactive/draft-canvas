@@ -63,7 +63,7 @@ export class Toolbar extends Component<Props, State> {
         <button name="center" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignCenter /></button>
         <button name="right" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignRight /></button>
         <div className="dce-toolbar-separator" />
-        <FontFamily />
+        <FontFamily editorState={editorState} onChange={onChange}/>
       </div>
     );
   }
