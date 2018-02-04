@@ -18,6 +18,9 @@ function getStyleArrayForBlock(block) {
         if (range.style.indexOf('fontfamily') === 0) {
           styleName = 'fontfamily';
           styleValue = range.style.substr(11);
+        } if (range.style.indexOf('fontsize') === 0) {
+          styleName = 'fontsize';
+          styleValue = range.style.substr(9);
         } else {
           styleName = range.style;
           styleValue = true;
@@ -73,13 +76,19 @@ export const getStyleSections = (block) => {
   return styleSections;
 }
 
+/**
+ * The function will return true if first character of the string is hebrew.
+ */
 const isHebrew = str => {
   var char = str.trim()[0];
   var position = char && char.search(/[\u0590-\u05FF]/);
   return position >= 0;
 }
 
-export const getAlignmentForBlock = (block) => {
+/**
+ * The function returns alignment from the block, finding it from block metadata.
+ */
+export const getAlignmentForBlock = block => {
   if (block.data['text-align']) {
     const direction = block.data['text-align'];
     let x = 0;
@@ -97,11 +106,21 @@ export const getAlignmentForBlock = (block) => {
   }
 }
 
+/**
+ * The function will return the list of blocks in draftjs editor content.
+ */
 export const getBlockArray = 
   (editorState: EditorState): any => convertToRaw(editorState.getCurrentContent()).blocks;
 
+/**
+ * The function returns font canvas text style depending on inline formatting applied in draftjs editor.
+ */
 export const getCanvasTextStyle = styles => {
-  let fontStyle = `16px ${styles.fontfamily || 'Verdana, Geneva, Tahoma, sans-serif'}`;
+  let fontStyle = `
+    ${styles.fontsize || 16}px 
+    ${styles.fontfamily || 
+      'Verdana, Geneva, Tahoma, sans-serif'}
+  `;
   if(styles.BOLD) {
     fontStyle = `bold ${fontStyle}`;
   }
@@ -110,4 +129,17 @@ export const getCanvasTextStyle = styles => {
   }
   return fontStyle;
 }
-  
+
+/**
+ * The function returns max fontsize used in a block.
+ */
+export const getMaxFontSizeInBlock = styleSections => {
+  let maxFontSize = 16;
+  styleSections.forEach(section => {
+    const fontsize = parseInt(section.styles.fontsize);
+    if (fontsize > maxFontSize) {
+      maxFontSize = fontsize;
+    }
+  });
+  return maxFontSize;
+}

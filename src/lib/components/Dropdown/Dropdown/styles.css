@@ -4,10 +4,10 @@
   cursor: pointer;
   border: 1px solid #F1F1F1;
   border-radius: 2px;
-  margin: 0 3px;
+  margin-right: 5px;
   text-transform: capitalize;
   background: white;
-  width: 135px;
+  width: 120px;
   font-size: 14px;
 }
 .cde-dropdown-carettoopen {

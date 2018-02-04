@@ -8,7 +8,7 @@ import {
 import { Dropdown, Option } from '../../Dropdown';
 import * as DraftJSUtils from 'draftjs-utils';
 
-const fontFamilies = ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Verdana'];
+const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96];
 
 export interface Props {
   editorState: EditorState;
@@ -16,7 +16,7 @@ export interface Props {
 }
 
 export interface State {
-  currentFontFamily?: string;
+  currentFontSize?: string;
 }
 
 export default class FontFamily extends Component<Props, State> {
@@ -24,39 +24,39 @@ export default class FontFamily extends Component<Props, State> {
   componentWillMount(): void {
     const { editorState } = this.props;
     this.setState({
-      currentFontFamily: 
+      currentFontSize: 
         DraftJSUtils.getSelectionCustomInlineStyle(
           editorState,
-          ['FONTFAMILY']
-        ).FONTFAMILY,
+          ['FONTSIZE']
+        ).FONTSIZE,
     });
   }
 
-  onChange = (fontFamily) => {
-    const { currentFontFamily } = this.state;
+  onChange = (fontSize) => {
+    const { currentFontSize } = this.state;
     const { editorState, onChange } = this.props;
-    const newFontFamily = currentFontFamily === fontFamily ? '' : fontFamily;
+    const newFontSize = currentFontSize === fontSize ? '' : fontSize;
     const newState = DraftJSUtils.toggleCustomInlineStyle(
       editorState,
-      'fontFamily',
-      newFontFamily,
+      'fontSize',
+      newFontSize,
     );
     if (newState) {
       onChange(newState);
     }
-    this.setState({ currentFontFamily: newFontFamily });
+    this.setState({ currentFontSize: newFontSize });
   };
 
   render() {
-    const { currentFontFamily } = this.state;
+    const { currentFontSize } = this.state;
     return (
       <Dropdown
         onChange={this.onChange}
-        label={currentFontFamily || 'Font Family'}
-        selectedValue={currentFontFamily}
+        label={currentFontSize || 'Font Size'}
+        selectedValue={currentFontSize}
       >
-        {fontFamilies.map(fontFamily =>
-          <Option value={fontFamily} key={fontFamily}>{fontFamily}</Option>)
+        {fontSizes.map(fontSize =>
+          <Option value={fontSize} key={fontSize}>{fontSize}</Option>)
         }
       </Dropdown>
     );
