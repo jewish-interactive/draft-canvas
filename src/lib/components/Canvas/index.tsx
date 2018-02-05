@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Component } from "react";
 import { EditorState, convertToRaw } from 'draft-js';
 import {
@@ -18,10 +19,15 @@ export interface State {
 }
 
 export class Canvas extends Component<Props, State> {
+  canvas: HTMLCanvasElement | undefined = undefined;;
+
+  getCanvasRef = (ref) => {
+    this.canvas = ReactDOM.findDOMNode(ref) as HTMLCanvasElement;
+  }
+
   componentWillReceiveProps(props) {
     if (this.props.editorState !== props.editorState) {
-      var canvas = document.getElementById('canvas') as HTMLCanvasElement;
-      var ctx = canvas.getContext('2d');
+      var ctx = this.canvas.getContext('2d');
       ctx.clearRect(0, 0, 500, 500);
       const blocks = getBlockArray(props.editorState);
 
@@ -30,8 +36,8 @@ export class Canvas extends Component<Props, State> {
         let { x, direction } = getAlignmentForBlock(block);
         ctx.textAlign = direction;
         const styleSections = getStyleSections(block);
-        const maxSize = getMaxFontSizeInBlock(styleSections);
-        y += maxSize;
+        const blockHeight = getMaxFontSizeInBlock(styleSections);
+        y += blockHeight;
         styleSections.forEach(section => {
           ctx.font = getCanvasTextStyle(section.styles);
           ctx.fillText(section.text, x, y);
@@ -41,8 +47,8 @@ export class Canvas extends Component<Props, State> {
           }
           x += (direction === 'left' ? 1 : -1) * textWidth;
         });
-        y += maxSize/5;
-      })
+        y += blockHeight/5;
+      });
     }
   }
 
@@ -51,7 +57,7 @@ export class Canvas extends Component<Props, State> {
     return (
       <div className="dce-canvas-container">
         <canvas
-          id="canvas"
+          ref={this.getCanvasRef}
           height="500"
           width="500"
           className="dce-canvas"
