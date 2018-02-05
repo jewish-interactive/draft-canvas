@@ -14,6 +14,7 @@ import Underline from '../../../icons/underline';
 import AlignLeft from '../../../icons/alignLeft';
 import AlignRight from '../../../icons/alignRight';
 import AlignCenter from '../../../icons/alignCenter';
+import Sefaria from '../../../icons/sefaria';
 import './styles.css';
 
 export interface Props {
@@ -56,20 +57,25 @@ export class Toolbar extends Component<Props, State> {
     const { editorState, onChange } = this.props;
     return (
       <div className="dce-toolbar">
-        <div className="dce-toolbar-row">
-          <button name="BOLD" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Bold /></button>
-          <button name="ITALIC" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Italic /></button>
-          <button name="UNDERLINE" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Underline /></button>
-          <div className="dce-toolbar-separator" />
-          <button name="left" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignLeft /></button>
-          <button name="center" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignCenter /></button>
-          <button name="right" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignRight /></button>
+        <div>
+          <div className="dce-toolbar-row">
+            <button name="BOLD" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Bold /></button>
+            <button name="ITALIC" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Italic /></button>
+            <button name="UNDERLINE" className="dce-toolbar-icon" onMouseDown={this.toggleInlineStyle}><Underline /></button>
+            <div className="dce-toolbar-separator" />
+            <button name="left" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignLeft /></button>
+            <button name="center" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignCenter /></button>
+            <button name="right" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignRight /></button>
+          </div>
+          <div className="dce-toolbar-row">
+            <FontFamily editorState={editorState} onChange={onChange}/>
+            <div className="dce-toolbar-separator" />
+            <FontSize editorState={editorState} onChange={onChange}/>
+          </div>
         </div>
-        <div className="dce-toolbar-row">
-          <FontFamily editorState={editorState} onChange={onChange}/>
-          <div className="dce-toolbar-separator" />
-          <FontSize editorState={editorState} onChange={onChange}/>
-        </div>
+        <a target="_blank" className="dce-sefaria-link" href="https://www.sefaria.org/texts">
+          <Sefaria />
+        </a>
       </div>
     );
   }
