@@ -7,16 +7,18 @@ import Close from '../../../icons/close';
 import './styles.css';
 
 export interface Props {
+  customFonts?: any[]
 }
 
 export interface State {
   editorState: EditorState;
+  hidden: boolean;
 }
 
 /**
  * Root component with DraftJS editor and Canvas components as children.
  */
-export class DraftCanvas extends Component {
+export class DraftCanvas extends Component<Props, State> {
   state = {
     editorState: EditorState.createEmpty(),
     hidden: false
@@ -32,6 +34,7 @@ export class DraftCanvas extends Component {
 
   render() {
     const { editorState, hidden } = this.state;
+    const { customFonts } = this.props;
     if (hidden) {
       return null;
     }
@@ -40,6 +43,7 @@ export class DraftCanvas extends Component {
         <div className="dce-editor-wrapper">
           <Close onClick={this.hideEditor} />
           <DraftEditor
+            customFonts={customFonts}
             editorState={editorState}
             onChange={this.onChange}
           />

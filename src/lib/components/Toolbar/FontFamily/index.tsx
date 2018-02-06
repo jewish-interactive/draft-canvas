@@ -8,28 +8,49 @@ import {
 import { Dropdown, Option } from '../../Dropdown';
 import * as DraftJSUtils from 'draftjs-utils';
 
-const fontFamilies = ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Verdana'];
+const fonts = [
+  { label: "Arial", fontName: "Arial" },
+  { label: "Georgia", fontName: "Georgia" },
+  { label: "Impact", fontName: "Impact" },
+  { label: "Tahoma", fontName: "Tahoma" },
+  { label: "Verdana", fontName: "Verdana" }
+];
 
 export interface Props {
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
+  customFonts?: any[];
 }
 
 export interface State {
   currentFontFamily?: string;
+  allFonts: any[];
 }
 
 export default class FontFamily extends Component<Props, State> {
+  state = {
+    currentFontFamily: '',
+    allFonts: fonts,
+  }
 
   componentWillMount(): void {
-    const { editorState } = this.props;
+    const { editorState, customFonts } = this.props;
     this.setState({
       currentFontFamily: 
         DraftJSUtils.getSelectionCustomInlineStyle(
           editorState,
           ['FONTFAMILY']
         ).FONTFAMILY,
+        allFonts: fonts.concat(customFonts)
     });
+  }
+
+  componentWillReceiveProps(props) {
+    if (this.props.customFonts !== props.customFonts) {
+      this.setState({
+        allFonts: fonts.concat(props.customFonts)
+      });
+    }
   }
 
   onChange = (fontFamily) => {
@@ -48,16 +69,18 @@ export default class FontFamily extends Component<Props, State> {
   };
 
   render() {
-    const { currentFontFamily } = this.state;
+    const { currentFontFamily, allFonts } = this.state;
     return (
       <Dropdown
         onChange={this.onChange}
         label={currentFontFamily || 'Font Family'}
         selectedValue={currentFontFamily}
       >
-        {fontFamilies.map(fontFamily =>
-          <Option value={fontFamily} key={fontFamily}>{fontFamily}</Option>)
-        }
+        {allFonts.map(fontFamily =>
+          <Option value={fontFamily.fontName} key={fontFamily.fontName}>
+            {fontFamily.label || fontFamily.fontName}
+          </Option>
+        )}
       </Dropdown>
     );
   }

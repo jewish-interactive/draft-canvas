@@ -20,6 +20,7 @@ import './styles.css';
 export interface Props {
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
+  customFonts?: any[];
 }
 
 export interface State {
@@ -54,7 +55,7 @@ export class Toolbar extends Component<Props, State> {
   }
 
   render() {
-    const { editorState, onChange } = this.props;
+    const { editorState, onChange, customFonts } = this.props;
     return (
       <div className="dce-toolbar">
         <div>
@@ -68,7 +69,7 @@ export class Toolbar extends Component<Props, State> {
             <button name="right" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignRight /></button>
           </div>
           <div className="dce-toolbar-row">
-            <FontFamily editorState={editorState} onChange={onChange}/>
+            <FontFamily editorState={editorState} onChange={onChange} customFonts={customFonts}/>
             <div className="dce-toolbar-separator" />
             <FontSize editorState={editorState} onChange={onChange}/>
           </div>

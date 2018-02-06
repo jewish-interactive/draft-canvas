@@ -14,6 +14,7 @@ import './styles.css';
 export interface Props {
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
+  customFonts?: any[];
 }
 
 export interface State {
@@ -44,10 +45,10 @@ export class DraftEditor extends Component<Props, State> {
   };
 
   render() {
-    const { editorState, onChange } = this.props;
+    const { editorState, onChange, customFonts } = this.props;
     return (
       <div>
-        <Toolbar editorState={editorState} onChange={onChange}/>
+        <Toolbar editorState={editorState} onChange={onChange} customFonts={customFonts} />
         <div className="dce-editor-container" onClick={this.focusEditor}>
           <Editor
             ref={this.setEditorReference}
