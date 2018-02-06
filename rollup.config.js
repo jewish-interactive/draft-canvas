@@ -6,7 +6,7 @@ import postcss from 'rollup-plugin-postcss';
 export default [
 	{
         input: './src/lib/Lib.ts',
-        external: ['react', 'react-dom', 'draft-js'],
+        external: ['react', 'react-dom', 'draft-js', 'draftjs-utils', 'classnames'],
         output: [
             { file: pkg.module, format: 'es', sourcemap: true },
             { file: pkg.main, format: 'cjs', sourcemap: true }

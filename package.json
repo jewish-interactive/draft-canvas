@@ -1,6 +1,6 @@
 {
   "name": "draft-canvas",
-  "version": "0.0.3-alpha",
+  "version": "0.0.4-alpha",
   "description": "Draft to Canvas",
   "main": "dist/draft-canvas.cjs.js",
   "module": "dist/draft-canvas.esm.js",
