@@ -41,14 +41,14 @@ export default class FontFamily extends Component<Props, State> {
           editorState,
           ['FONTFAMILY']
         ).FONTFAMILY,
-        allFonts: fonts.concat(customFonts)
+        allFonts: [...fonts, ...customFonts || []]
     });
   }
 
   componentWillReceiveProps(props) {
     if (this.props.customFonts !== props.customFonts) {
       this.setState({
-        allFonts: fonts.concat(props.customFonts)
+        allFonts: [...fonts, ...props.customFonts || []]
       });
     }
   }

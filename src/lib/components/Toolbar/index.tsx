@@ -7,6 +7,7 @@ import {
 } from 'draft-js';
 import FontFamily from './FontFamily';
 import FontSize from './FontSize';
+import Color from './Color';
 import * as DraftJSUtils from 'draftjs-utils';
 import Bold from '../../../icons/bold';
 import Italic from '../../../icons/italic';
@@ -67,6 +68,8 @@ export class Toolbar extends Component<Props, State> {
             <button name="left" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignLeft /></button>
             <button name="center" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignCenter /></button>
             <button name="right" className="dce-toolbar-icon" onMouseDown={this.addBlockAlignmentData}><AlignRight /></button>
+            <div className="dce-toolbar-separator" />
+            <Color editorState={editorState} onChange={onChange} />
           </div>
           <div className="dce-toolbar-row">
             <FontFamily editorState={editorState} onChange={onChange} customFonts={customFonts}/>
