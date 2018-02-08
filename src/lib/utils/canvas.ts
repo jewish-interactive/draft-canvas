@@ -18,7 +18,7 @@ function getStyleArrayForBlock(block) {
         if (range.style.indexOf('fontfamily') === 0) {
           styleName = 'fontfamily';
           styleValue = range.style.substr(11);
-        } if (range.style.indexOf('fontsize') === 0) {
+        } else if (range.style.indexOf('fontsize') === 0) {
           styleName = 'fontsize';
           styleValue = range.style.substr(9);
         } else {
