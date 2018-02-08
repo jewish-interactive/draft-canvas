@@ -3,7 +3,6 @@ import { Component } from "react";
 import { EditorState } from 'draft-js';
 import { DraftEditor } from '../DraftEditor';
 import { Canvas } from '../Canvas';
-import Close from '../../../icons/close';
 import './styles.css';
 
 export interface Props {
@@ -12,7 +11,6 @@ export interface Props {
 
 export interface State {
   editorState: EditorState;
-  hidden: boolean;
 }
 
 /**
@@ -21,27 +19,18 @@ export interface State {
 export class DraftCanvas extends Component<Props, State> {
   state = {
     editorState: EditorState.createEmpty(),
-    hidden: false
   }
 
   onChange = editorState => {
     this.setState({ editorState });
   }
 
-  hideEditor = () => {
-    this.setState({hidden: true});
-  }
-
   render() {
-    const { editorState, hidden } = this.state;
+    const { editorState } = this.state;
     const { customFonts } = this.props;
-    if (hidden) {
-      return null;
-    }
     return (
       <div className="dce-container">
         <div className="dce-editor-wrapper">
-          <Close onClick={this.hideEditor} />
           <DraftEditor
             customFonts={customFonts}
             editorState={editorState}
