@@ -1,33 +1,32 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import { Component } from "react";
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw } from "draft-js";
 import {
   getAlignmentForBlock,
   getStyleSections,
   getBlockArray,
   getCanvasTextStyle,
   getMaxFontSizeInBlock
-} from '../../utils/canvas';
-import './styles.css';
+} from "../../utils/canvas";
+import "./styles.css";
 
 export interface Props {
   editorState: EditorState;
 }
 
-export interface State {
-}
+export interface State {}
 
 export class Canvas extends Component<Props, State> {
-  canvas: HTMLCanvasElement | undefined = undefined;;
+  canvas: HTMLCanvasElement | undefined = undefined;
 
-  getCanvasRef = (ref) => {
+  getCanvasRef = ref => {
     this.canvas = ReactDOM.findDOMNode(ref) as HTMLCanvasElement;
-  }
+  };
 
   componentWillReceiveProps(props) {
     if (this.props.editorState !== props.editorState) {
-      var ctx = this.canvas.getContext('2d');
+      var ctx = this.canvas.getContext("2d");
       ctx.clearRect(0, 0, 500, 500);
       const blocks = getBlockArray(props.editorState);
 
@@ -45,9 +44,9 @@ export class Canvas extends Component<Props, State> {
           if (section.styles.UNDERLINE) {
             ctx.fillRect(x, y + 1, textWidth, 1);
           }
-          x += (direction === 'left' ? 1 : -1) * textWidth;
+          x += (direction === "left" ? 1 : -1) * textWidth;
         });
-        y += blockHeight/5;
+        y += blockHeight / 5;
       });
     }
   }
@@ -61,8 +60,7 @@ export class Canvas extends Component<Props, State> {
           height="500"
           width="500"
           className="dce-canvas"
-        >
-        </canvas>
+        />
       </div>
     );
   }

@@ -1,12 +1,8 @@
-import * as React from 'react';
+import * as React from "react";
 import { Component } from "react";
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-} from 'draft-js';
-import { Dropdown, Option } from '../../Dropdown';
-import * as DraftJSUtils from 'draftjs-utils';
+import { Editor, EditorState, RichUtils } from "draft-js";
+import { Dropdown, Option } from "../../Dropdown";
+import * as DraftJSUtils from "draftjs-utils";
 
 const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96];
 
@@ -20,31 +16,36 @@ export interface State {
 }
 
 export default class FontFamily extends Component<Props, State> {
-
   componentWillMount(): void {
     const { editorState } = this.props;
-    this.setState({
-      currentFontSize: 
-        DraftJSUtils.getSelectionCustomInlineStyle(
-          editorState,
-          ['FONTSIZE']
-        ).FONTSIZE,
-    });
+    const fontSize = DraftJSUtils.getSelectionCustomInlineStyle(editorState, [
+      "FONTSIZE"
+    ]).FONTSIZE;
+    this.setState({ currentFontSize: fontSize && fontSize.substr(9) });
   }
 
-  onChange = (fontSize) => {
+  componentWillReceiveProps(props) {
+    if (this.props.editorState !== props.editorState) {
+      const fontSize = DraftJSUtils.getSelectionCustomInlineStyle(
+        props.editorState,
+        ["FONTSIZE"]
+      ).FONTSIZE;
+      this.setState({ currentFontSize: fontSize && fontSize.substr(9) });
+    }
+  }
+
+  onChange = fontSize => {
     const { currentFontSize } = this.state;
     const { editorState, onChange } = this.props;
-    const newFontSize = currentFontSize === fontSize ? '' : fontSize;
+    const newFontSize = currentFontSize === fontSize.toString() ? "" : fontSize;
     const newState = DraftJSUtils.toggleCustomInlineStyle(
       editorState,
-      'fontSize',
-      newFontSize,
+      "fontSize",
+      newFontSize
     );
     if (newState) {
       onChange(newState);
     }
-    this.setState({ currentFontSize: newFontSize });
   };
 
   render() {
@@ -52,12 +53,14 @@ export default class FontFamily extends Component<Props, State> {
     return (
       <Dropdown
         onChange={this.onChange}
-        label={currentFontSize || 'Font Size'}
+        label={currentFontSize || "Font Size"}
         selectedValue={currentFontSize}
       >
-        {fontSizes.map(fontSize =>
-          <Option value={fontSize} key={fontSize}>{fontSize}</Option>)
-        }
+        {fontSizes.map(fontSize => (
+          <Option value={fontSize} key={fontSize}>
+            {fontSize}
+          </Option>
+        ))}
       </Dropdown>
     );
   }

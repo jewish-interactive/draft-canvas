@@ -2,7 +2,7 @@
   height: 30px;
   background: white;
   cursor: pointer;
-  border: 1px solid #F1F1F1;
+  border: 1px solid #f1f1f1;
   border-radius: 2px;
   margin-right: 5px;
   text-transform: capitalize;
@@ -40,7 +40,7 @@
 .cde-dropdown-optionwrapper {
   z-index: 100;
   position: relative;
-  border: 1px solid #F1F1F1;
+  border: 1px solid #f1f1f1;
   width: 98%;
   background: white;
   border-radius: 2px;

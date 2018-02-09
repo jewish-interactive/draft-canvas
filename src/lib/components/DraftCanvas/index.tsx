@@ -1,12 +1,12 @@
-import * as React from 'react';
+import * as React from "react";
 import { Component } from "react";
-import { EditorState } from 'draft-js';
-import { DraftEditor } from '../DraftEditor';
-import { Canvas } from '../Canvas';
-import './styles.css';
+import { EditorState } from "draft-js";
+import { DraftEditor } from "../DraftEditor";
+import { Canvas } from "../Canvas";
+import "./styles.css";
 
 export interface Props {
-  customFonts?: any[]
+  customFonts?: any[];
 }
 
 export interface State {
@@ -18,12 +18,12 @@ export interface State {
  */
 export class DraftCanvas extends Component<Props, State> {
   state = {
-    editorState: EditorState.createEmpty(),
-  }
+    editorState: EditorState.createEmpty()
+  };
 
   onChange = editorState => {
     this.setState({ editorState });
-  }
+  };
 
   render() {
     const { editorState } = this.state;
@@ -36,9 +36,7 @@ export class DraftCanvas extends Component<Props, State> {
             editorState={editorState}
             onChange={this.onChange}
           />
-          <Canvas
-            editorState={editorState}
-          />
+          <Canvas editorState={editorState} />
         </div>
       </div>
     );

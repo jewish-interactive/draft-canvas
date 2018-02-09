@@ -1,17 +1,17 @@
-import * as React from 'react';
+import * as React from "react";
 import { PureComponent } from "react";
-import './styles.css';
+import "./styles.css";
 
-const classNames = require('classnames');
+const classNames = require("classnames");
 
 export interface Props {
-  children: any,
-  value: any,
-  onSelect?: Function,
-  setHighlighted?: Function,
-  index?: number,
-  selectedValue?: any,
-  highlighted?: boolean,
+  children: any;
+  value: any;
+  onSelect?: Function;
+  setHighlighted?: Function;
+  index?: number;
+  selectedValue?: any;
+  highlighted?: boolean;
 }
 
 export default class Option extends PureComponent<Props, any> {
@@ -31,20 +31,13 @@ export default class Option extends PureComponent<Props, any> {
   };
 
   render(): Object {
-    const {
-      children,
-      highlighted,
-      selectedValue,
-      value
-    } = this.props;
+    const { children, highlighted, selectedValue, value } = this.props;
     return (
       <li
-        className={classNames(
-          'cde-dropdownoption-default', {
-            'cde-dropdownoption-highlighted': highlighted,
-            'cde-dropdownoption-selected': selectedValue === value,
-          })
-        }
+        className={classNames("cde-dropdownoption-default", {
+          "cde-dropdownoption-highlighted": highlighted,
+          "cde-dropdownoption-selected": selectedValue === value
+        })}
         onMouseEnter={this.setHighlighted}
         onMouseLeave={this.resetHighlighted}
         onClick={this.onClick}
