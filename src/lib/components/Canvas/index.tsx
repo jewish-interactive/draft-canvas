@@ -6,7 +6,7 @@ import {
   getAlignmentForBlock,
   getStyleSections,
   getBlockArray,
-  getCanvasTextStyle,
+  setCanvasTextStyles,
   getMaxFontSizeInBlock
 } from "../../utils/canvas";
 import "./styles.css";
@@ -38,12 +38,21 @@ export class Canvas extends Component<Props, State> {
         const blockHeight = getMaxFontSizeInBlock(styleSections);
         y += blockHeight;
         styleSections.forEach(section => {
-          ctx.font = getCanvasTextStyle(section.styles);
-          ctx.fillText(section.text, x, y);
           const textWidth = ctx.measureText(section.text).width;
           if (section.styles.UNDERLINE) {
             ctx.fillRect(x, y + 1, textWidth, 1);
           }
+          if (section.styles.bgcolor) {
+            ctx.fillStyle = section.styles.bgcolor;
+            ctx.fillRect(
+              x,
+              y - blockHeight,
+              textWidth,
+              blockHeight + blockHeight / 5
+            );
+          }
+          setCanvasTextStyles(ctx, section.styles);
+          ctx.fillText(section.text, x, y);
           x += (direction === "left" ? 1 : -1) * textWidth;
         });
         y += blockHeight / 5;

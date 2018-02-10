@@ -15,13 +15,18 @@ function getStyleArrayForBlock(block) {
       const length = offset + range.length;
       let styleName;
       let styleValue = true;
-      console.log("*** *** ***", range.style);
       if (range.style.indexOf("fontfamily") === 0) {
         styleName = "fontfamily";
         styleValue = range.style.substr(11);
       } else if (range.style.indexOf("fontsize") === 0) {
         styleName = "fontsize";
         styleValue = range.style.substr(9);
+      } else if (range.style.indexOf("color") === 0) {
+        styleName = "color";
+        styleValue = range.style.substr(6);
+      } else if (range.style.indexOf("bgcolor") === 0) {
+        styleName = "bgcolor";
+        styleValue = range.style.substr(8);
       } else {
         styleName = range.style;
         styleValue = true;
@@ -118,7 +123,7 @@ export const getBlockArray = (editorState: EditorState): any =>
 /**
  * The function returns font canvas text style depending on inline formatting applied in draftjs editor.
  */
-export const getCanvasTextStyle = styles => {
+export const setCanvasTextStyles = (ctx, styles) => {
   let fontStyle = `
     ${styles.fontsize || 16}px 
     ${styles.fontfamily || "Verdana, Geneva, Tahoma, sans-serif"}
@@ -129,7 +134,12 @@ export const getCanvasTextStyle = styles => {
   if (styles.ITALIC) {
     fontStyle = `italic ${fontStyle}`;
   }
-  return fontStyle;
+  if (styles.color) {
+    ctx.fillStyle = styles.color;
+  } else {
+    ctx.fillStyle = "black";
+  }
+  ctx.font = fontStyle;
 };
 
 /**
