@@ -13,6 +13,7 @@ import "./styles.css";
 
 export interface Props {
   editorState: EditorState;
+  setCanvasRef: Function;
 }
 
 export interface State {}
@@ -22,6 +23,7 @@ export class Canvas extends Component<Props, State> {
 
   getCanvasRef = ref => {
     this.canvas = ReactDOM.findDOMNode(ref) as HTMLCanvasElement;
+    this.props.setCanvasRef(this.canvas);
   };
 
   componentWillReceiveProps(props) {
@@ -31,14 +33,18 @@ export class Canvas extends Component<Props, State> {
       const blocks = getBlockArray(props.editorState);
 
       let y = 0;
+      let maxWidth = 0;
       blocks.forEach(block => {
         let { x, direction } = getAlignmentForBlock(block);
         ctx.textAlign = direction;
         const styleSections = getStyleSections(block);
         const blockHeight = getMaxFontSizeInBlock(styleSections);
         y += blockHeight;
+        let blockWidth = 0;
         styleSections.forEach(section => {
+          setCanvasTextStyles(ctx, section.styles);
           const textWidth = ctx.measureText(section.text).width;
+          blockWidth += textWidth;
           if (section.styles.UNDERLINE) {
             ctx.fillRect(x, y + 1, textWidth, 1);
           }
@@ -51,11 +57,14 @@ export class Canvas extends Component<Props, State> {
               blockHeight + blockHeight / 5
             );
           }
-          setCanvasTextStyles(ctx, section.styles);
+          ctx.fillStyle = section.styles.color ? section.styles.color : "black";
           ctx.fillText(section.text, x, y);
           x += (direction === "left" ? 1 : -1) * textWidth;
         });
         y += blockHeight / 5;
+        if (blockWidth > maxWidth) {
+          maxWidth = blockWidth;
+        }
       });
     }
   }

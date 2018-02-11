@@ -134,11 +134,6 @@ export const setCanvasTextStyles = (ctx, styles) => {
   if (styles.ITALIC) {
     fontStyle = `italic ${fontStyle}`;
   }
-  if (styles.color) {
-    ctx.fillStyle = styles.color;
-  } else {
-    ctx.fillStyle = "black";
-  }
   ctx.font = fontStyle;
 };
 
