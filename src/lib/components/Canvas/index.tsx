@@ -51,7 +51,7 @@ export class Canvas extends Component<Props, State> {
           if (section.styles.bgcolor) {
             ctx.fillStyle = section.styles.bgcolor;
             ctx.fillRect(
-              x,
+              direction === "right" ? x - textWidth : x,
               y - blockHeight,
               textWidth,
               blockHeight + blockHeight / 5
