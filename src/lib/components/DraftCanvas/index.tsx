@@ -7,7 +7,7 @@ import "./styles.css";
 
 export interface Props {
   customFonts?: any[];
-  canvas?: HTMLCanvasElement;
+  target?: HTMLCanvasElement;
   onSave?: Function;
 }
 
@@ -33,7 +33,7 @@ export class DraftCanvas extends Component<Props, State> {
 
   render() {
     const { editorState } = this.state;
-    const { customFonts, canvas } = this.props;
+    const { customFonts, target } = this.props;
     return (
       <div className="dce-container">
         <DraftEditor
@@ -41,7 +41,7 @@ export class DraftCanvas extends Component<Props, State> {
           editorState={editorState}
           onChange={this.onChange}
         />
-        <Canvas editorState={editorState} canvas={canvas} />
+        <Canvas editorState={editorState} canvas={target} />
         <button onClick={this.onSave} className="dce-save-btn">
           Save
         </button>
