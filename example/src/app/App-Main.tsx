@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Component } from "react";
 import { DraftCanvas } from "lib/Lib";
+import "./styles.css";
 
 declare global {
   namespace JSX {
@@ -10,6 +12,36 @@ declare global {
   }
 }
 
-const App = () => <DraftCanvas onSave={e => console.log(e)} />;
+export interface Props {}
+
+export interface State {
+  canvas?: HTMLCanvasElement;
+}
+
+class App extends Component<Props, State> {
+  state = {
+    canvas: undefined
+  };
+
+  getCanvasRef = ref => {
+    this.setState({
+      canvas: ReactDOM.findDOMNode(ref) as HTMLCanvasElement
+    });
+  };
+
+  render() {
+    return (
+      <div className="dce-canvas-container">
+        <DraftCanvas canvas={this.state.canvas} onSave={() => {}} />
+        <canvas
+          ref={this.getCanvasRef}
+          height="500"
+          width="500"
+          className="dce-canvas"
+        />
+      </div>
+    );
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById("app"));
