@@ -19,8 +19,8 @@ export interface State {}
 
 export class Canvas extends Component<Props, State> {
   componentWillReceiveProps(props) {
-    if (this.props.editorState !== props.editorState) {
-      var ctx = this.props.canvas.getContext("2d");
+    if (this.props.editorState !== props.editorState && props.canvas) {
+      var ctx = props.canvas.getContext("2d");
       ctx.clearRect(0, 0, 500, 500);
       const blocks = getBlockArray(props.editorState);
 

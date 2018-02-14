@@ -37,6 +37,23 @@ class App extends Component<Props, State> {
           onSave={obj => {
             console.log(JSON.stringify(obj));
           }}
+          defaultValue={{
+            blocks: [
+              {
+                key: "71u9",
+                text: "saved state",
+                type: "unstyled",
+                depth: 0,
+                inlineStyleRanges: [
+                  { offset: 0, length: 11, style: "BOLD" },
+                  { offset: 0, length: 11, style: "color-rgb(97,189,109)" }
+                ],
+                entityRanges: [],
+                data: {}
+              }
+            ],
+            entityMap: {}
+          }}
         />
         <canvas
           ref={this.getCanvasRef}

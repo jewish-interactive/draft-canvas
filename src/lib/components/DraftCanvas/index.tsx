@@ -9,6 +9,7 @@ export interface Props {
   customFonts?: any[];
   target?: HTMLCanvasElement;
   onSave?: Function;
+  defaultValue?: object;
 }
 
 export interface State {
@@ -30,15 +31,16 @@ export class DraftCanvas extends Component<Props, State> {
   onSave = () => {
     const { editorState } = this.state;
     const rawDraftContentState = convertToRaw(editorState.getCurrentContent());
-    this.props.onSave({rawDraftContentState});
+    this.props.onSave({ rawDraftContentState });
   };
 
   render() {
     const { editorState } = this.state;
-    const { customFonts, target } = this.props;
+    const { customFonts, target, defaultValue } = this.props;
     return (
       <div className="dce-container">
         <DraftEditor
+          defaultValue={defaultValue}
           customFonts={customFonts}
           editorState={editorState}
           onChange={this.onChange}

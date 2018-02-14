@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { Editor, EditorState, RichUtils } from "draft-js";
+import { Editor, EditorState, RichUtils, convertFromRaw } from "draft-js";
 import * as DraftJSUtils from "draftjs-utils";
 import { Toolbar } from "../Toolbar";
 import { blockStyleFn } from "../../utils/block-style";
@@ -11,6 +11,7 @@ export interface Props {
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
   customFonts?: any[];
+  defaultValue?: object;
 }
 
 export interface State {}
@@ -20,6 +21,26 @@ export interface State {}
  */
 export class DraftEditor extends Component<Props, State> {
   editor: DraftEditor = undefined;
+
+  constructor(props) {
+    super(props);
+    if (props.defaultValue) {
+      this.initializeEditor(props.defaultValue);
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (!this.props.defaultValue && props.defaultValue) {
+      this.initializeEditor(props.defaultValue);
+    }
+  }
+
+  initializeEditor = rawContentState => {
+    const contentState = convertFromRaw(rawContentState);
+    const editorState = EditorState.createWithContent(contentState);
+    DraftJSUtils.extractInlineStyle(editorState);
+    this.props.onChange(EditorState.moveSelectionToEnd(editorState));
+  };
 
   setEditorReference = ref => {
     this.editor = ref;
