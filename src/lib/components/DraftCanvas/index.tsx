@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import { DraftEditor } from "../DraftEditor";
 import { Canvas } from "../Canvas";
 import "./styles.css";
@@ -28,7 +28,9 @@ export class DraftCanvas extends Component<Props, State> {
   };
 
   onSave = () => {
-    this.props.onSave();
+    const { editorState } = this.state;
+    const rawDraftContentState = convertToRaw(editorState.getCurrentContent());
+    this.props.onSave({rawDraftContentState});
   };
 
   render() {

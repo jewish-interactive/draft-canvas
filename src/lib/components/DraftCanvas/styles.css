@@ -15,6 +15,7 @@
   padding: 0px 20px;
   border-radius: 5px;
   border: 1px solid #f1f1f1;
+  cursor: pointer;
 }
 .dce-save-btn:focus {
   outline: none;

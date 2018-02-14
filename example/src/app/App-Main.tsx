@@ -32,7 +32,12 @@ class App extends Component<Props, State> {
   render() {
     return (
       <div className="dce-canvas-container">
-        <DraftCanvas target={this.state.canvas} onSave={() => {}} />
+        <DraftCanvas
+          target={this.state.canvas}
+          onSave={obj => {
+            console.log(JSON.stringify(obj));
+          }}
+        />
         <canvas
           ref={this.getCanvasRef}
           height="500"
