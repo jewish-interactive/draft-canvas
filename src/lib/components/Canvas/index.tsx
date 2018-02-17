@@ -37,9 +37,6 @@ export class Canvas extends Component<Props, State> {
           setCanvasTextStyles(ctx, section.styles);
           const textWidth = ctx.measureText(section.text).width;
           blockWidth += textWidth;
-          if (section.styles.UNDERLINE) {
-            ctx.fillRect(x, y + 1, textWidth, 1);
-          }
           if (section.styles.bgcolor) {
             ctx.fillStyle = section.styles.bgcolor;
             ctx.fillRect(
@@ -47,6 +44,14 @@ export class Canvas extends Component<Props, State> {
               y - blockHeight,
               textWidth,
               blockHeight + blockHeight / 5
+            );
+          }
+          if (section.styles.UNDERLINE) {
+            ctx.fillRect(
+              direction === "right" ? x - textWidth : x,
+              y + 1,
+              textWidth,
+              1
             );
           }
           ctx.fillStyle = section.styles.color ? section.styles.color : "black";
