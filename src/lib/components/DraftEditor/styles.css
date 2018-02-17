@@ -4,6 +4,7 @@
   font-size: 16px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   border: 1px solid #f1f1f1;
+  overflow: hidden;
 }
 .dce-left-aligned-block > * {
   text-align: left !important;
