@@ -6,3 +6,14 @@ export function blockStyleFn(block) {
   }
   return "";
 }
+
+export function getEditorHeight() {
+  try {
+    const domNode = document.getElementsByClassName(
+      "public-DraftEditor-content"
+    )[0].children[0];
+    if (domNode) {
+      return domNode.clientHeight;
+    }
+  } catch (exp) {}
+}

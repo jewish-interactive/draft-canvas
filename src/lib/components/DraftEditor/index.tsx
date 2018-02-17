@@ -3,7 +3,7 @@ import { Component } from "react";
 import { Editor, EditorState, RichUtils, convertFromRaw } from "draft-js";
 import * as DraftJSUtils from "draftjs-utils";
 import { Toolbar } from "../Toolbar";
-import { blockStyleFn } from "../../utils/block-style";
+import { blockStyleFn, getEditorHeight } from "../../utils/draft";
 import "../../../../node_modules/draft-js/dist/Draft.css";
 import "./styles.css";
 
@@ -60,6 +60,14 @@ export class DraftEditor extends Component<Props, State> {
     return false;
   };
 
+  handleReturn = (): any => {
+    const editorHeight = getEditorHeight();
+    if (editorHeight && editorHeight >= 480) {
+      return true;
+    }
+    return false;
+  };
+
   render() {
     const { editorState, onChange, customFonts } = this.props;
     return (
@@ -75,6 +83,7 @@ export class DraftEditor extends Component<Props, State> {
             customStyleMap={DraftJSUtils.getCustomStyleMap()}
             blockStyleFn={blockStyleFn}
             handleKeyCommand={this.handleKeyCommand}
+            handleReturn={this.handleReturn}
             editorState={editorState}
             onChange={onChange}
           />
