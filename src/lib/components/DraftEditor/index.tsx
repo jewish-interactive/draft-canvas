@@ -78,6 +78,7 @@ export class DraftEditor extends Component<Props, State> {
           editorState={editorState}
           onChange={onChange}
           customFonts={customFonts}
+          width={width}
         />
         <div
           className="dce-editor-container"

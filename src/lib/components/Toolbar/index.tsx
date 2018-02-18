@@ -18,6 +18,7 @@ export interface Props {
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
   customFonts?: any[];
+  width: number;
 }
 
 export interface State {}
@@ -56,67 +57,58 @@ export class Toolbar extends Component<Props, State> {
   };
 
   render() {
-    const { editorState, onChange, customFonts } = this.props;
+    const { editorState, onChange, customFonts, width } = this.props;
     return (
-      <div className="dce-toolbar">
-        <div>
-          <div className="dce-toolbar-row">
-            <button
-              name="BOLD"
-              className="dce-toolbar-icon"
-              onMouseDown={this.toggleInlineStyle}
-            >
-              <Bold />
-            </button>
-            <button
-              name="ITALIC"
-              className="dce-toolbar-icon"
-              onMouseDown={this.toggleInlineStyle}
-            >
-              <Italic />
-            </button>
-            <button
-              name="UNDERLINE"
-              className="dce-toolbar-icon"
-              onMouseDown={this.toggleInlineStyle}
-            >
-              <Underline />
-            </button>
-            <div className="dce-toolbar-separator" />
-            <button
-              name="left"
-              className="dce-toolbar-icon"
-              onMouseDown={this.addBlockAlignmentData}
-            >
-              <AlignLeft />
-            </button>
-            <button
-              name="center"
-              className="dce-toolbar-icon"
-              onMouseDown={this.addBlockAlignmentData}
-            >
-              <AlignCenter />
-            </button>
-            <button
-              name="right"
-              className="dce-toolbar-icon"
-              onMouseDown={this.addBlockAlignmentData}
-            >
-              <AlignRight />
-            </button>
-            <div className="dce-toolbar-separator" />
-            <Color editorState={editorState} onChange={onChange} />
-          </div>
-          <div className="dce-toolbar-row">
-            <FontFamily
-              editorState={editorState}
-              onChange={onChange}
-              customFonts={customFonts}
-            />
-            <div className="dce-toolbar-separator" />
-            <FontSize editorState={editorState} onChange={onChange} />
-          </div>
-        </div>
+      <div className="dce-toolbar" style={{ width: width - 10 }}>
+        <button
+          name="BOLD"
+          className="dce-toolbar-icon"
+          onMouseDown={this.toggleInlineStyle}
+        >
+          <Bold />
+        </button>
+        <button
+          name="ITALIC"
+          className="dce-toolbar-icon"
+          onMouseDown={this.toggleInlineStyle}
+        >
+          <Italic />
+        </button>
+        <button
+          name="UNDERLINE"
+          className="dce-toolbar-icon"
+          onMouseDown={this.toggleInlineStyle}
+        >
+          <Underline />
+        </button>
+        <button
+          name="left"
+          className="dce-toolbar-icon"
+          onMouseDown={this.addBlockAlignmentData}
+        >
+          <AlignLeft />
+        </button>
+        <button
+          name="center"
+          className="dce-toolbar-icon"
+          onMouseDown={this.addBlockAlignmentData}
+        >
+          <AlignCenter />
+        </button>
+        <button
+          name="right"
+          className="dce-toolbar-icon"
+          onMouseDown={this.addBlockAlignmentData}
+        >
+          <AlignRight />
+        </button>
+        <Color editorState={editorState} onChange={onChange} />
+        <FontFamily
+          editorState={editorState}
+          onChange={onChange}
+          customFonts={customFonts}
+        />
+        <FontSize editorState={editorState} onChange={onChange} />
         <a
           target="_blank"
           className="dce-sefaria-link"
