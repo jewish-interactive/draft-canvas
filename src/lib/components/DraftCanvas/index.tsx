@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { Component } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import { DraftEditor } from "../DraftEditor";
-import { plotCanvas } from "../../utils/canvas";
+import { Canvas } from "../Canvas";
 import "./styles.css";
 
 export interface Props {
@@ -28,18 +28,8 @@ export class DraftCanvas extends Component<Props, State> {
     editorDimensions: { height: 500, width: 500 }
   };
 
-  plotCanvas = editorState => {
-    const editorDimensions = plotCanvas(
-      this.props.target,
-      editorState,
-      500,
-      500
-    ) as any;
-  };
-
   onChange = editorState => {
-    const editorDimensions = this.plotCanvas(editorState);
-    this.setState({ editorState, editorDimensions });
+    this.setState({ editorState });
   };
 
   onSave = () => {
@@ -48,14 +38,18 @@ export class DraftCanvas extends Component<Props, State> {
     const { width, height } = editorDimensions;
     this.canvas.width = width;
     this.canvas.height = height;
-    this.canvas
-      .getContext("2d")
-      .drawImage(this.props.target, 0, 0, width, height, 0, 0, width, height);
+    const ctx = this.canvas.getContext("2d");
+    ctx.clearRect(0, 0, 500, 500);
+    ctx.drawImage(this.props.target, 0, 0, width, height, 0, 0, width, height);
     this.props.onSave({ rawDraftContentState, canvas: this.canvas });
   };
 
   getCanvasRef = ref => {
     this.canvas = ReactDOM.findDOMNode(ref) as HTMLCanvasElement;
+  };
+
+  setDimensions = editorDimensions => {
+    this.setState({ editorDimensions });
   };
 
   render() {
@@ -69,6 +63,13 @@ export class DraftCanvas extends Component<Props, State> {
           editorState={editorState}
           onChange={this.onChange}
         />
+        <Canvas
+          editorState={editorState}
+          canvas={target}
+          height={500}
+          width={500}
+          setDimensions={this.setDimensions}
+        />
         <canvas style={{ display: "none" }} ref={this.getCanvasRef} />
         <button onClick={this.onSave} className="dce-save-btn">
           Save
@@ -77,5 +78,3 @@ export class DraftCanvas extends Component<Props, State> {
     );
   }
 }
-
-// todo: init state

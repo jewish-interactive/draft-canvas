@@ -35,7 +35,7 @@ class App extends Component<Props, State> {
         <DraftCanvas
           target={this.state.canvas}
           onSave={obj => {
-            console.log(JSON.stringify(obj));
+            console.log(obj);
           }}
           defaultValue={{
             blocks: [
