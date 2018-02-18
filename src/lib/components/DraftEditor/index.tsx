@@ -12,6 +12,8 @@ export interface Props {
   onChange: (editorState: EditorState) => void;
   customFonts?: any[];
   defaultValue?: object;
+  height: number;
+  width: number;
 }
 
 export interface State {}
@@ -62,14 +64,14 @@ export class DraftEditor extends Component<Props, State> {
 
   handleReturn = (): any => {
     const editorHeight = getEditorHeight();
-    if (editorHeight && editorHeight >= 480) {
+    if (editorHeight && editorHeight >= this.props.height - 20) {
       return true;
     }
     return false;
   };
 
   render() {
-    const { editorState, onChange, customFonts } = this.props;
+    const { editorState, onChange, customFonts, height, width } = this.props;
     return (
       <div>
         <Toolbar
@@ -77,7 +79,11 @@ export class DraftEditor extends Component<Props, State> {
           onChange={onChange}
           customFonts={customFonts}
         />
-        <div className="dce-editor-container" onClick={this.focusEditor}>
+        <div
+          className="dce-editor-container"
+          style={{ height, width }}
+          onClick={this.focusEditor}
+        >
           <Editor
             ref={this.setEditorReference}
             customStyleMap={DraftJSUtils.getCustomStyleMap()}

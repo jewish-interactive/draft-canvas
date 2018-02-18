@@ -20,3 +20,6 @@
 .dce-save-btn:focus {
   outline: none;
 }
+.dce-hidden {
+  display: none;
+}

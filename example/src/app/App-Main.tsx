@@ -57,8 +57,8 @@ class App extends Component<Props, State> {
         />
         <canvas
           ref={this.getCanvasRef}
-          height="500"
-          width="500"
+          height={500}
+          width={500}
           className="dce-canvas"
         />
       </div>

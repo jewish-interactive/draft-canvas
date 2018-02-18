@@ -34,7 +34,7 @@ export class Canvas extends Component<Props, State> {
       let x = 0;
       let maxWidth = 0;
       blocks.forEach(block => {
-        let { x, direction } = getAlignmentForBlock(block);
+        let { x, direction } = getAlignmentForBlock(block, width);
         ctx.textAlign = direction;
         const styleSections = getStyleSections(block);
         const blockHeight = getMaxFontSizeInBlock(styleSections);

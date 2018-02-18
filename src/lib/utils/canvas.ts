@@ -96,19 +96,19 @@ const isHebrew = str => {
 /**
  * The function returns alignment from the block, finding it from block metadata.
  */
-export const getAlignmentForBlock = block => {
+export const getAlignmentForBlock = (block, width) => {
   if (block.data["text-align"]) {
     const direction = block.data["text-align"];
     let x = 0;
     if (direction === "right") {
-      x = 500;
+      x = width;
     } else if (direction === "center") {
-      x = 250;
+      x = width / 2;
     }
     return { direction, x };
   }
   if (isHebrew(block.text)) {
-    return { direction: "right", x: 500 };
+    return { direction: "right", x: width };
   } else {
     return { direction: "left", x: 0 };
   }
