@@ -51,7 +51,7 @@ export class DraftCanvas extends Component<Props, State> {
     this.canvas
       .getContext("2d")
       .drawImage(this.props.target, 0, 0, width, height, 0, 0, width, height);
-    this.props.onSave({ rawDraftContentState });
+    this.props.onSave({ rawDraftContentState, canvas: this.canvas });
   };
 
   getCanvasRef = ref => {
