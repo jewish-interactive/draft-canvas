@@ -23,18 +23,21 @@ export class Canvas extends Component<Props, State> {
   canvas = undefined;
 
   componentWillReceiveProps(props) {
-    const { editorState, height, width, setDimensions } = props;
-    if (
-      this.props.editorState !== editorState
-    ) {
+    const { editorState, setDimensions } = props;
+    if (this.props.editorState !== editorState) {
       const ctx = this.canvas.getContext("2d");
-      ctx.clearRect(0, 0, height, width);
+      ctx.clearRect(0, 0, 500, 500);
       const blocks = getBlockArray(editorState);
       let y = 0;
       let x = 0;
       let maxWidth = 0;
+      const dir = {
+        left: false,
+        right: false
+      };
       blocks.forEach(block => {
-        let { x, direction } = getAlignmentForBlock(block, width);
+        let { x, direction } = getAlignmentForBlock(block, 500);
+        dir[direction] = true;
         ctx.textAlign = direction;
         const styleSections = getStyleSections(block);
         const blockHeight = getMaxFontSizeInBlock(styleSections);
@@ -70,7 +73,7 @@ export class Canvas extends Component<Props, State> {
           maxWidth = blockWidth;
         }
       });
-      setDimensions({ width: maxWidth, height: y });
+      setDimensions({ width: maxWidth, height: y, dir });
     }
   }
 
@@ -80,11 +83,13 @@ export class Canvas extends Component<Props, State> {
   };
 
   render() {
-    return <canvas
-      ref={this.getCanvasRef}
-      className="dce-canvas"
-      height="500"
-      width="500"
-    />;
+    return (
+      <canvas
+        ref={this.getCanvasRef}
+        className="dce-canvas"
+        height="500"
+        width="500"
+      />
+    );
   }
 }

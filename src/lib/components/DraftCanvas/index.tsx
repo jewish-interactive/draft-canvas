@@ -25,7 +25,7 @@ export class DraftCanvas extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: EditorState.createEmpty(),
+      editorState: EditorState.createEmpty()
     };
   }
 
@@ -35,15 +35,17 @@ export class DraftCanvas extends Component<Props, State> {
 
   onSave = () => {
     const { editorState, dimensions } = this.state;
+    const { width, height, dir } = dimensions;
+    const x1 = dir.left ? 0 : 500 - width;
+    const x2 = dir.right ? 500 : width;
     const rawDraftContentState = convertToRaw(editorState.getCurrentContent());
-    const { width, height } = dimensions;
     const newCanvas = document.createElement("canvas");
     newCanvas.width = width;
     newCanvas.height = height;
-    newCanvas.setAttribute('style', `height: ${height}px;width:${width}px;`)
+    newCanvas.setAttribute("style", `height: ${height}px;width:${width}px;`);
     const ctx = newCanvas.getContext("2d");
     ctx.clearRect(0, 0, width, height);
-    ctx.drawImage(this.canvas, 0, 0, width, height, 0, 0, width, height);
+    ctx.drawImage(this.canvas, x1, 0, x2, height, 0, 0, width, height);
     this.props.onSave({ rawDraftContentState, canvas: newCanvas });
   };
 
