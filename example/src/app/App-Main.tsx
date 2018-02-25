@@ -14,26 +14,11 @@ declare global {
 
 export interface Props {}
 
-export interface State {
-  canvas?: HTMLCanvasElement;
-}
-
-class App extends Component<Props, State> {
-  state = {
-    canvas: undefined
-  };
-
-  getCanvasRef = ref => {
-    this.setState({
-      canvas: ReactDOM.findDOMNode(ref) as HTMLCanvasElement
-    });
-  };
-
+class App extends Component<Props, undefined> {
   render() {
     return (
       <div className="dce-canvas-container">
         <DraftCanvas
-          target={this.state.canvas}
           onSave={obj => {
             console.log(obj);
           }}
@@ -54,12 +39,6 @@ class App extends Component<Props, State> {
             ],
             entityMap: {}
           }}
-        />
-        <canvas
-          ref={this.getCanvasRef}
-          height={500}
-          width={500}
-          className="dce-canvas"
         />
       </div>
     );

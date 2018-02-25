@@ -8,15 +8,13 @@ import "./styles.css";
 
 export interface Props {
   customFonts?: any[];
-  target?: HTMLCanvasElement;
   onSave?: Function;
   defaultValue?: object;
 }
 
 export interface State {
   editorState: EditorState;
-  dimensions: any;
-  initDimensions: any;
+  dimensions?: any;
 }
 
 /**
@@ -26,28 +24,9 @@ export class DraftCanvas extends Component<Props, State> {
   canvas = undefined;
   constructor(props) {
     super(props);
-    let height = 500;
-    let width = 500;
-    if (props.target) {
-      height = props.target.clientHeight;
-      width = props.target.clientWidth;
-    }
     this.state = {
       editorState: EditorState.createEmpty(),
-      dimensions: { height, width },
-      initDimensions: { height, width }
     };
-  }
-
-  componentWillReceiveProps(props) {
-    if (!this.props.target && props.target) {
-      this.setState({
-        initDimensions: {
-          height: props.target.clientHeight,
-          width: props.target.clientWidth
-        }
-      });
-    }
   }
 
   onChange = editorState => {
@@ -58,16 +37,18 @@ export class DraftCanvas extends Component<Props, State> {
     const { editorState, dimensions } = this.state;
     const rawDraftContentState = convertToRaw(editorState.getCurrentContent());
     const { width, height } = dimensions;
-    this.canvas.width = width;
-    this.canvas.height = height;
-    const ctx = this.canvas.getContext("2d");
+    const newCanvas = document.createElement("canvas");
+    newCanvas.width = width;
+    newCanvas.height = height;
+    newCanvas.setAttribute('style', `height: ${height}px;width:${width}px;`)
+    const ctx = newCanvas.getContext("2d");
     ctx.clearRect(0, 0, width, height);
-    ctx.drawImage(this.props.target, 0, 0, width, height, 0, 0, width, height);
-    this.props.onSave({ rawDraftContentState, canvas: this.canvas });
+    ctx.drawImage(this.canvas, 0, 0, width, height, 0, 0, width, height);
+    this.props.onSave({ rawDraftContentState, canvas: newCanvas });
   };
 
-  getCanvasRef = ref => {
-    this.canvas = ReactDOM.findDOMNode(ref) as HTMLCanvasElement;
+  setCanvasRef = canvas => {
+    this.canvas = canvas;
   };
 
   setDimensions = dimensions => {
@@ -75,8 +56,8 @@ export class DraftCanvas extends Component<Props, State> {
   };
 
   render() {
-    const { editorState, dimensions, initDimensions } = this.state;
-    const { customFonts, target, defaultValue } = this.props;
+    const { editorState, dimensions } = this.state;
+    const { customFonts, defaultValue } = this.props;
     return (
       <div className="dce-container">
         <DraftEditor
@@ -84,20 +65,13 @@ export class DraftCanvas extends Component<Props, State> {
           customFonts={customFonts}
           editorState={editorState}
           onChange={this.onChange}
-          height={initDimensions.height}
-          width={initDimensions.width}
+          onSave={this.onSave}
         />
         <Canvas
           editorState={editorState}
-          canvas={target}
-          height={initDimensions.height}
-          width={initDimensions.width}
+          setCanvasRef={this.setCanvasRef}
           setDimensions={this.setDimensions}
         />
-        <canvas className="dce-hidden" ref={this.getCanvasRef} />
-        <button onClick={this.onSave} className="dce-save-btn">
-          Save
-        </button>
       </div>
     );
   }

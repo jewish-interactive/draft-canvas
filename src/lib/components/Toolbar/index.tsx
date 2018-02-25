@@ -18,7 +18,7 @@ export interface Props {
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
   customFonts?: any[];
-  width: number;
+  onSave: any;
 }
 
 export interface State {}
@@ -57,9 +57,9 @@ export class Toolbar extends Component<Props, State> {
   };
 
   render() {
-    const { editorState, onChange, customFonts, width } = this.props;
+    const { editorState, onChange, customFonts, onSave } = this.props;
     return (
-      <div className="dce-toolbar" style={{ width: width - 10 }}>
+      <div className="dce-toolbar">
         <button
           name="BOLD"
           className="dce-toolbar-icon"
@@ -116,6 +116,13 @@ export class Toolbar extends Component<Props, State> {
         >
           <Sefaria />
         </a>
+        <button
+          name="right"
+          className="dce-save-btn"
+          onMouseDown={onSave}
+        >
+          Save
+        </button>
       </div>
     );
   }

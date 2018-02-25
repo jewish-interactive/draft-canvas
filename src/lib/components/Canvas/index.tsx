@@ -9,25 +9,25 @@ import {
   setCanvasTextStyles,
   getMaxFontSizeInBlock
 } from "../../utils/canvas";
+import "./styles.css";
 
 export interface Props {
   editorState: EditorState;
-  canvas: HTMLCanvasElement;
-  height: number;
-  width: number;
+  setCanvasRef: Function;
   setDimensions: Function;
 }
 
 export interface State {}
 
 export class Canvas extends Component<Props, State> {
+  canvas = undefined;
+
   componentWillReceiveProps(props) {
-    const { editorState, canvas, height, width, setDimensions } = props;
+    const { editorState, height, width, setDimensions } = props;
     if (
-      this.props.editorState !== editorState ||
-      this.props.canvas !== props.canvas
+      this.props.editorState !== editorState
     ) {
-      const ctx = props.canvas.getContext("2d");
+      const ctx = this.canvas.getContext("2d");
       ctx.clearRect(0, 0, height, width);
       const blocks = getBlockArray(editorState);
       let y = 0;
@@ -74,7 +74,17 @@ export class Canvas extends Component<Props, State> {
     }
   }
 
+  getCanvasRef = ref => {
+    this.canvas = ReactDOM.findDOMNode(ref) as HTMLCanvasElement;
+    this.props.setCanvasRef(this.canvas);
+  };
+
   render() {
-    return null;
+    return <canvas
+      ref={this.getCanvasRef}
+      className="dce-canvas"
+      height="500"
+      width="500"
+    />;
   }
 }

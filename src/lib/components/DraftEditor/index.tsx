@@ -12,8 +12,7 @@ export interface Props {
   onChange: (editorState: EditorState) => void;
   customFonts?: any[];
   defaultValue?: object;
-  height: number;
-  width: number;
+  onSave: Function;
 }
 
 export interface State {}
@@ -64,25 +63,24 @@ export class DraftEditor extends Component<Props, State> {
 
   handleReturn = (): any => {
     const editorHeight = getEditorHeight();
-    if (editorHeight && editorHeight >= this.props.height - 20) {
+    if (editorHeight && editorHeight >= 480) {
       return true;
     }
     return false;
   };
 
   render() {
-    const { editorState, onChange, customFonts, height, width } = this.props;
+    const { editorState, onChange, customFonts, onSave } = this.props;
     return (
       <div>
         <Toolbar
           editorState={editorState}
           onChange={onChange}
           customFonts={customFonts}
-          width={width}
+          onSave={onSave}
         />
         <div
           className="dce-editor-container"
-          style={{ height, width }}
           onClick={this.focusEditor}
         >
           <Editor

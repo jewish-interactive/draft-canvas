@@ -2,25 +2,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   background-color: white;
-}
-.dce-save-btn {
-  width: 115px;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  margin-top: 15px;
-  padding: 0px 20px;
-  border-radius: 5px;
-  border: 1px solid #f1f1f1;
-  cursor: pointer;
-}
-.dce-save-btn:focus {
-  outline: none;
-}
-.dce-hidden {
-  display: none;
 }
