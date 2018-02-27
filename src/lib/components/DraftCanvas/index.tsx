@@ -45,7 +45,7 @@ export class DraftCanvas extends Component<Props, State> {
     newCanvas.setAttribute("style", `height: ${height}px;width:${width}px;`);
     const ctx = newCanvas.getContext("2d");
     ctx.clearRect(0, 0, width, height);
-    ctx.drawImage(this.canvas, x1, 0, x2, height, 0, 0, width, height);
+    ctx.drawImage(this.canvas, x1, 0, x2, height, 0, 0, x2, height);
     this.props.onSave({ rawDraftContentState, canvas: newCanvas });
   };
 
