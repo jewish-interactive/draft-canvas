@@ -13,15 +13,44 @@ declare global {
 }
 
 export interface Props {}
+interface State {
+  canvas?:HTMLCanvasElement
+}
 
-class App extends Component<Props, undefined> {
-  render() {
+class App extends Component<Props, State> {
+  constructor(props:Props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    //couldn't get this to work easily via just JSX
+
+    if(prevState.canvas) {
+      document.body.removeChild(prevState.canvas);
+    }
+
+    if(this.state.canvas) {
+      const canvas = this.state.canvas;
+      canvas.style.position = "absolute";
+      canvas.style.top = "700px";
+      canvas.style.left = ((window.innerWidth - canvas.width)/2) + "px";
+      document.body.appendChild(canvas);
+    }
+    
+  }
+  render() { 
     return (
       <div className="dce-canvas-container">
         <DraftCanvas
           onSave={obj => {
             console.log(obj);
+            this.setState({
+              canvas: obj.canvas
+            })
           }}
+
           defaultValue={{
             blocks: [
               {
