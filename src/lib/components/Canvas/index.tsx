@@ -7,7 +7,8 @@ import {
   getStyleSections,
   getBlockArray,
   setCanvasTextStyles,
-  getMaxFontSizeInBlock
+  getMaxFontSizeInBlock,
+  getLines
 } from "../../utils/canvas";
 import "./styles.css";
 
@@ -45,28 +46,38 @@ export class Canvas extends Component<Props, State> {
         let blockWidth = 0;
         styleSections.forEach(section => {
           setCanvasTextStyles(ctx, section.styles);
-          const textWidth = ctx.measureText(section.text).width;
-          blockWidth += textWidth;
-          if (section.styles.bgcolor) {
-            ctx.fillStyle = section.styles.bgcolor;
-            ctx.fillRect(
-              direction === "right" ? x - textWidth : x,
-              y - blockHeight,
-              textWidth,
-              blockHeight + blockHeight / 5
-            );
-          }
-          if (section.styles.UNDERLINE) {
-            ctx.fillRect(
-              direction === "right" ? x - textWidth : x,
-              y + 1,
-              textWidth,
-              1
-            );
-          }
-          ctx.fillStyle = section.styles.color ? section.styles.color : "black";
-          ctx.fillText(section.text, x, y);
-          x += (direction === "left" ? 1 : -1) * textWidth;
+          const lines = getLines(ctx, section.text, blockWidth);
+          lines.forEach((line, index) => {
+            const textWidth = ctx.measureText(line).width;
+            blockWidth += textWidth;
+            if (section.styles.bgcolor) {
+              ctx.fillStyle = section.styles.bgcolor;
+              ctx.fillRect(
+                direction === "right" ? x - textWidth : x,
+                y - blockHeight,
+                textWidth,
+                blockHeight + blockHeight / 5
+              );
+            }
+            if (section.styles.UNDERLINE) {
+              ctx.fillRect(
+                direction === "right" ? x - textWidth : x,
+                y + 1,
+                textWidth,
+                1
+              );
+            }
+            ctx.fillStyle = section.styles.color
+              ? section.styles.color
+              : "black";
+            ctx.fillText(line, x, y);
+            x += (direction === "left" ? 1 : -1) * textWidth;
+            if (lines.length > 1 && index < lines.length - 1) {
+              y += blockHeight + blockHeight / 5;
+              x = direction === "right" ? 500 : 0;
+              maxWidth = 500;
+            }
+          });
         });
         y += blockHeight / 5;
         if (blockWidth > maxWidth) {

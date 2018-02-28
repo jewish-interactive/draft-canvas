@@ -150,3 +150,23 @@ export const getMaxFontSizeInBlock = styleSections => {
   });
   return maxFontSize;
 };
+
+export const getLines = (ctx, text, currentWidth) => {
+  let remainingWidth = 425 - currentWidth;
+  const words = text.split(" ");
+  const lines = [];
+  let line = "";
+  words.forEach(word => {
+    const textWidth = ctx.measureText(`${word} `).width;
+    if (textWidth < remainingWidth) {
+      line += `${word} `;
+      remainingWidth -= textWidth;
+    } else {
+      lines.push(new String(line));
+      line = `${word} `;
+      remainingWidth = 425;
+    }
+  });
+  lines.push(line);
+  return lines;
+};
