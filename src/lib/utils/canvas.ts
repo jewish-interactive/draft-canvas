@@ -151,19 +151,48 @@ export const getMaxFontSizeInBlock = styleSections => {
   return maxFontSize;
 };
 
-export const getLines = (ctx, text, currentWidth) => {
-  let remainingWidth = 425 - currentWidth;
-  const words = text.split(" ");
+const breakWordInLines = (ctx, word) => {
   const lines = [];
   let line = "";
-  words.forEach(word => {
-    const textWidth = ctx.measureText(`${word} `).width;
-    if (textWidth < remainingWidth) {
-      line += `${word} `;
-      remainingWidth -= textWidth;
+  for (let i = 0; i < word.length; i++) {
+    const textWidth = ctx.measureText(`${line} + ${word[i]}`).width;
+    if (textWidth < 425) {
+      line += word[i];
     } else {
       lines.push(new String(line));
-      line = `${word} `;
+      line = word[i];
+    }
+  }
+  lines.push(line);
+  return lines;
+};
+
+export const getLines = (ctx, text, currentWidth) => {
+  let remainingWidth = 425 - currentWidth;
+  const words = text
+    .split(" ")
+    .join(" ,")
+    .split(",");
+  let lines = [];
+  let line = "";
+  words.forEach(word => {
+    const textWidth = ctx.measureText(word).width;
+    if (textWidth > 425) {
+      if (line.length > 0) {
+        lines.push(new String(line));
+      }
+      const wordLines = breakWordInLines(ctx, word);
+      lines = [...lines, ...wordLines.slice(0, wordLines.length - 1)];
+      line = wordLines[wordLines.length - 1];
+      remainingWidth = 425 - ctx.measureText(line).width;
+    } else if (textWidth < remainingWidth) {
+      line += word;
+      remainingWidth -= textWidth;
+    } else {
+      if (line.length > 0) {
+        lines.push(new String(line));
+      }
+      line = word;
       remainingWidth = 425;
     }
   });
