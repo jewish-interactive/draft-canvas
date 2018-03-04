@@ -3,9 +3,11 @@ import { Component } from "react";
 import { Editor, EditorState, RichUtils, convertFromRaw } from "draft-js";
 import * as DraftJSUtils from "draftjs-utils";
 import { Toolbar } from "../Toolbar";
-import { blockStyleFn, getEditorHeight } from "../../utils/draft";
+import { blockStyleFn, getEditorHeight, getStyleMap } from "../../utils/draft";
 import "../../../../node_modules/draft-js/dist/Draft.css";
 import "./styles.css";
+
+const customStyleMap = getStyleMap();
 
 export interface Props {
   editorState: EditorState;
@@ -39,7 +41,6 @@ export class DraftEditor extends Component<Props, State> {
   initializeEditor = rawContentState => {
     const contentState = convertFromRaw(rawContentState);
     const editorState = EditorState.createWithContent(contentState);
-    DraftJSUtils.extractInlineStyle(editorState);
     this.props.onChange(EditorState.moveSelectionToEnd(editorState));
   };
 
@@ -79,13 +80,10 @@ export class DraftEditor extends Component<Props, State> {
           customFonts={customFonts}
           onSave={onSave}
         />
-        <div
-          className="dce-editor-container"
-          onClick={this.focusEditor}
-        >
+        <div className="dce-editor-container" onClick={this.focusEditor}>
           <Editor
             ref={this.setEditorReference}
-            customStyleMap={DraftJSUtils.getCustomStyleMap()}
+            customStyleMap={customStyleMap}
             blockStyleFn={blockStyleFn}
             handleKeyCommand={this.handleKeyCommand}
             handleReturn={this.handleReturn}

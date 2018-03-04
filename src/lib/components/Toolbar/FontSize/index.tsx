@@ -2,9 +2,8 @@ import * as React from "react";
 import { Component } from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
 import { Dropdown, Option } from "../../Dropdown";
+import { fontSizes } from "../../../utils/draft";
 import * as DraftJSUtils from "draftjs-utils";
-
-const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96];
 
 export interface Props {
   editorState: EditorState;
