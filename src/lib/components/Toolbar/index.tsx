@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { Editor, EditorState, RichUtils } from "draft-js";
+import { Editor, EditorState, RichUtils, Modifier } from "draft-js";
 import FontFamily from "./FontFamily";
 import FontSize from "./FontSize";
 import Color from "./Color";
@@ -12,7 +12,18 @@ import AlignLeft from "../../../icons/alignLeft";
 import AlignRight from "../../../icons/alignRight";
 import AlignCenter from "../../../icons/alignCenter";
 import Sefaria from "../../../icons/sefaria";
+import Keyboard from "../../../icons/keyboard";
+import Cross from "../../../icons/cross";
 import "./styles.css";
+
+const classNames = require("classnames");
+
+const letters = [
+  ["~", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
+  ["/", "'", "ק", "ר", "א", "ט", "ו", "ן", "ם", "פ", "\\"],
+  ["ש", "ד", "ג", "כ", "ע", "י", "ח", "ל", "ך", "ף", ",", "]", "["],
+  ["ז", "ס", "ב", "ה", "נ", "מ", "צ", "ת", "ץ", "."]
+];
 
 export interface Props {
   editorState: EditorState;
@@ -21,12 +32,51 @@ export interface Props {
   onSave: any;
 }
 
-export interface State {}
+export interface State {
+  showKeyboard: boolean;
+  currentStyles: {
+    inlineStyles: { BOLD: boolean; ITALIC: boolean; UNDERLINE: boolean };
+    alignmentStyle: any;
+  };
+}
 
 /**
  * Toolbar component for DraftJS editor.
  */
 export class Toolbar extends Component<Props, State> {
+  state = {
+    showKeyboard: false,
+    currentStyles: {
+      inlineStyles: { BOLD: false, ITALIC: false, UNDERLINE: false },
+      alignmentStyle: {}
+    }
+  };
+
+  componentWillMount() {
+    const { editorState } = this.props;
+    if (editorState) {
+      this.setState({
+        currentStyles: this.getCurrentStyles(editorState)
+      });
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    const { editorState } = props;
+    if (editorState) {
+      this.setState({
+        currentStyles: this.getCurrentStyles(editorState)
+      });
+    }
+  }
+
+  getCurrentStyles = editorState => {
+    return {
+      inlineStyles: DraftJSUtils.getSelectionInlineStyle(editorState),
+      alignmentStyle: DraftJSUtils.getSelectedBlocksMetadata(editorState).toJS()
+    };
+  };
+
   toggleInlineStyle = event => {
     event.preventDefault();
     const { editorState, onChange } = this.props;
@@ -56,48 +106,81 @@ export class Toolbar extends Component<Props, State> {
     }
   };
 
+  toggleShowKeyboard = () => {
+    this.setState({
+      showKeyboard: !this.state.showKeyboard
+    });
+  };
+
+  enterTextInEditor = event => {
+    const { editorState, onChange } = this.props;
+    const contentState = Modifier.replaceText(
+      editorState.getCurrentContent(),
+      editorState.getSelection(),
+      event.target.id,
+      editorState.getCurrentInlineStyle()
+    );
+    onChange(EditorState.push(editorState, contentState, "insert-characters"));
+  };
+
   render() {
     const { editorState, onChange, customFonts, onSave } = this.props;
+    const { showKeyboard, currentStyles } = this.state;
     return (
       <div className="dce-toolbar">
         <button
           name="BOLD"
-          className="dce-toolbar-icon"
+          className={classNames("dce-toolbar-option", {
+            "dce-toolbar-option-selected": currentStyles.inlineStyles.BOLD
+          })}
           onMouseDown={this.toggleInlineStyle}
         >
           <Bold />
         </button>
         <button
           name="ITALIC"
-          className="dce-toolbar-icon"
+          className={classNames("dce-toolbar-option", {
+            "dce-toolbar-option-selected": currentStyles.inlineStyles.ITALIC
+          })}
           onMouseDown={this.toggleInlineStyle}
         >
           <Italic />
         </button>
         <button
           name="UNDERLINE"
-          className="dce-toolbar-icon"
+          className={classNames("dce-toolbar-option", {
+            "dce-toolbar-option-selected": currentStyles.inlineStyles.UNDERLINE
+          })}
           onMouseDown={this.toggleInlineStyle}
         >
           <Underline />
         </button>
         <button
           name="left"
-          className="dce-toolbar-icon"
+          className={classNames("dce-toolbar-option", {
+            "dce-toolbar-option-selected":
+              currentStyles.alignmentStyle["text-align"] === "left"
+          })}
           onMouseDown={this.addBlockAlignmentData}
         >
           <AlignLeft />
         </button>
         <button
           name="center"
-          className="dce-toolbar-icon"
+          className={classNames("dce-toolbar-option", {
+            "dce-toolbar-option-selected":
+              currentStyles.alignmentStyle["text-align"] === "center"
+          })}
           onMouseDown={this.addBlockAlignmentData}
         >
           <AlignCenter />
         </button>
         <button
           name="right"
-          className="dce-toolbar-icon"
+          className={classNames("dce-toolbar-option", {
+            "dce-toolbar-option-selected":
+              currentStyles.alignmentStyle["text-align"] === "right"
+          })}
           onMouseDown={this.addBlockAlignmentData}
         >
           <AlignRight />
@@ -116,13 +199,32 @@ export class Toolbar extends Component<Props, State> {
         >
           <Sefaria />
         </a>
-        <button
-          name="right"
-          className="dce-save-btn"
-          onMouseDown={onSave}
-        >
+        <button name="right" className="dce-save-btn" onMouseDown={onSave}>
           Save
         </button>
+        <button
+          name="right"
+          className="dce-toolbar-option"
+          onMouseDown={this.toggleShowKeyboard}
+        >
+          <Keyboard />
+        </button>
+        {showKeyboard && (
+          <div className="dce-keyboard" onMouseDown={this.enterTextInEditor}>
+            <button onClick={this.toggleShowKeyboard} className="dce-cross-btn">
+              <Cross />
+            </button>
+            {letters.map((row, index) => (
+              <div key={`row-${index}`}>
+                {row.map(ch => (
+                  <span key={ch} className="dce-hebrew-char" id={ch}>
+                    {ch}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

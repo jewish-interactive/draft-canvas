@@ -46,24 +46,26 @@ export interface State {
   currentTextColor: string;
   expanded: boolean;
   currentStyle: string;
-  currentcolor?: string;
-  currentbgcolor?: string;
+  currentColor: string;
+  currentBgColor: string;
 }
 
 export default class FontFamily extends Component<Props, State> {
   state = {
     currentTextColor: "",
     expanded: false,
-    currentStyle: "color"
+    currentStyle: "color",
+    currentColor: "",
+    currentBgColor: ""
   };
 
   componentWillMount(): void {
     const { editorState } = this.props;
     this.setState({
-      currentcolor: DraftJSUtils.getSelectionCustomInlineStyle(editorState, [
+      currentColor: DraftJSUtils.getSelectionCustomInlineStyle(editorState, [
         "COLOR"
       ]).COLOR,
-      currentbgcolor: DraftJSUtils.getSelectionCustomInlineStyle(editorState, [
+      currentBgColor: DraftJSUtils.getSelectionCustomInlineStyle(editorState, [
         "BGCOLOR"
       ]).BGCOLOR
     });
@@ -117,14 +119,20 @@ export default class FontFamily extends Component<Props, State> {
   };
 
   render() {
-    const { currentStyle, currentTextColor, expanded } = this.state;
+    const {
+      currentStyle,
+      currentTextColor,
+      expanded,
+      currentColor,
+      currentBgColor
+    } = this.state;
     return (
       <div
         className="dce-colorpicker-wrapper"
         onMouseDown={this.preventDefault}
       >
         <button
-          className="dce-toolbar-icon dce-colorpicker-icon"
+          className="dce-toolbar-option dce-colorpicker-option-icon"
           onClick={this.toggleExpanded}
         >
           <Color />
@@ -167,7 +175,13 @@ export default class FontFamily extends Component<Props, State> {
                 >
                   <div
                     style={{ backgroundColor: color }}
-                    className="dce-colorpicker-cube"
+                    className={classNames("dce-colorpicker-cube", {
+                      "dce-colorpicker-cube-selected":
+                        (currentStyle === "bgcolor" &&
+                          currentBgColor === `bgcolor-${color}`) ||
+                        (currentStyle === "color" &&
+                          currentColor === `color-${color}`)
+                    })}
                   />
                 </button>
               ))}

@@ -1,12 +1,12 @@
-.cde-dropdownoption-default {
+.dce-dropdownoption-default {
   min-height: 25px;
   display: flex;
   align-items: center;
   padding: 0 5px;
 }
-.cde-dropdownoption-highlighted {
+.dce-dropdownoption-highlighted {
   background: #f1f1f1;
 }
-.cde-dropdownoption-selected {
+.dce-dropdownoption-selected {
   background: #e5e5e5;
 }

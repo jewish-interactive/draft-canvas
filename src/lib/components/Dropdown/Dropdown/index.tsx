@@ -43,18 +43,18 @@ export default class Dropdown extends Component<Props, State> {
     const { children, label, selectedValue } = this.props;
     const { highlighted, expanded } = this.state;
     return (
-      <div className="cde-dropdown-wrapper" onMouseDown={this.preventDefault}>
-        <a className="cde-dropdown-label" onClick={this.toggleExpanded}>
+      <div className="dce-dropdown-wrapper" onMouseDown={this.preventDefault}>
+        <a className="dce-dropdown-label" onClick={this.toggleExpanded}>
           {label}
           <div
             className={classNames({
-              "cde-dropdown-carettoclose": expanded,
-              "cde-dropdown-carettoopen": !expanded
+              "dce-dropdown-carettoclose": expanded,
+              "dce-dropdown-carettoopen": !expanded
             })}
           />
         </a>
         {expanded && (
-          <ul className="cde-dropdown-optionwrapper">
+          <ul className="dce-dropdown-optionwrapper">
             {React.Children.map(children, (option: any, index) => {
               const temp =
                 option &&

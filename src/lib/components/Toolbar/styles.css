@@ -1,16 +1,18 @@
 .dce-toolbar {
-  border: 1px solid #f1f1f1;
+  border-top: 1px solid #f1f1f1;
   padding: 5px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  flex-wrap: wrap;
   width: 490px;
   background-color: white;
+  position: relative;
+  border-left: 1px solid #f1f1f1;
+  border-right: 1px solid #f1f1f1;
 }
-.dce-toolbar-icon {
-  width: 35px;
-  height: 35px;
+.dce-toolbar-option {
+  width: 32px;
+  height: 32px;
   margin-right: 5px;
   border: 1px solid #f1f1f1;
   border-radius: 3px;
@@ -20,8 +22,17 @@
   cursor: pointer;
   margin-bottom: 5px;
 }
-.dce-toolbar-icon:focus {
+.dce-toolbar-option:focus {
   outline: none;
+}
+.dce-toolbar-option:hover {
+  box-shadow: 1px 1px 0px #bfbdbd;
+}
+.dce-toolbar-option:active {
+  box-shadow: 1px 1px 0px #bfbdbd inset;
+}
+.dce-toolbar-option-selected {
+  box-shadow: 1px 1px 0px #bfbdbd inset;
 }
 .dce-toolbar-separator {
   display: inline-block;
@@ -42,6 +53,12 @@
   height: 10px;
   margin-bottom: 5px;
 }
+.dce-sefaria-link:hover {
+  box-shadow: 1px 1px 0px #bfbdbd;
+}
+.dce-sefaria-link:active {
+  box-shadow: 1px 1px 0px #bfbdbd inset;
+}
 .dce-save-btn {
   height: 32px;
   background: white;
@@ -56,6 +73,54 @@
   margin-bottom: 5px;
   margin-left: 5px;
 }
+.dce-save-btn:hover {
+  box-shadow: 1px 1px 0px #bfbdbd;
+}
+.dce-save-btn:active {
+  box-shadow: 1px 1px 0px #bfbdbd inset;
+}
 .dce-save-btn:focus {
+  outline: none;
+}
+.dce-keyboard {
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  width: 500px;
+  background-color: white;
+  border: 1px solid #f1f1f1;
+}
+.dce-keyboard > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dce-hebrew-char {
+  width: 32px;
+  height: 32px;
+  margin-right: 5px;
+  border: 1px solid #f1f1f1;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 2px;
+}
+.dce-hebrew-char:hover {
+  box-shadow: 1px 1px 0px #bfbdbd;
+}
+.dce-hebrew-char:active {
+  box-shadow: 1px 1px 0px #bfbdbd inset;
+}
+.dce-cross-btn {
+  position: absolute;
+  right: -15px;
+  top: -12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.dce-cross-btn:focus {
   outline: none;
 }

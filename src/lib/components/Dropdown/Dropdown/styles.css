@@ -1,4 +1,4 @@
-.cde-dropdown-wrapper {
+.dce-dropdown-wrapper {
   height: 30px;
   background: white;
   cursor: pointer;
@@ -11,7 +11,13 @@
   font-size: 14px;
   margin-bottom: 5px;
 }
-.cde-dropdown-carettoopen {
+.dce-dropdown-wrapper:hover {
+  box-shadow: 1px 1px 0px #bfbdbd;
+}
+.dce-dropdown-wrapper:active {
+  box-shadow: 1px 1px 0px #bfbdbd inset;
+}
+.dce-dropdown-carettoopen {
   height: 0px;
   width: 0px;
   position: absolute;
@@ -21,7 +27,7 @@
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
-.cde-dropdown-carettoclose {
+.dce-dropdown-carettoclose {
   height: 0px;
   width: 0px;
   position: absolute;
@@ -31,14 +37,14 @@
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
-.cde-dropdown-label {
+.dce-dropdown-label {
   display: flex;
   position: relative;
   height: 100%;
   align-items: center;
   padding: 0 5px;
 }
-.cde-dropdown-optionwrapper {
+.dce-dropdown-optionwrapper {
   z-index: 100;
   position: relative;
   border: 1px solid #f1f1f1;

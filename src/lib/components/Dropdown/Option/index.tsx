@@ -34,9 +34,9 @@ export default class Option extends PureComponent<Props, any> {
     const { children, highlighted, selectedValue, value } = this.props;
     return (
       <li
-        className={classNames("cde-dropdownoption-default", {
-          "cde-dropdownoption-highlighted": highlighted,
-          "cde-dropdownoption-selected": selectedValue === value
+        className={classNames("dce-dropdownoption-default", {
+          "dce-dropdownoption-highlighted": highlighted,
+          "dce-dropdownoption-selected": selectedValue === value
         })}
         onMouseEnter={this.setHighlighted}
         onMouseLeave={this.resetHighlighted}
