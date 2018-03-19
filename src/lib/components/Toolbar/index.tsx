@@ -194,14 +194,14 @@ export class Toolbar extends Component<Props, State> {
         >
           <Sefaria />
         </a>
-        <button className="dce-toolbar-option" onMouseDown={onSave}>
-          <Save />
-        </button>
         <button
           className="dce-toolbar-option dce-toolbar-option-keyboard"
           onMouseDown={this.toggleShowKeyboard}
         >
           <Keyboard />
+        </button>
+        <button className="dce-toolbar-option" onMouseDown={onSave}>
+          <Save />
         </button>
         <FontFamily
           editorState={editorState}
