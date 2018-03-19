@@ -14,6 +14,7 @@ import AlignCenter from "../../../icons/alignCenter";
 import Sefaria from "../../../icons/sefaria";
 import Keyboard from "../../../icons/keyboard";
 import Cross from "../../../icons/cross";
+import Save from "../../../icons/save";
 import "./styles.css";
 
 const classNames = require("classnames");
@@ -199,12 +200,11 @@ export class Toolbar extends Component<Props, State> {
         >
           <Sefaria />
         </a>
-        <button name="right" className="dce-save-btn" onMouseDown={onSave}>
-          Save
+        <button className="dce-toolbar-option" onMouseDown={onSave}>
+          <Save />
         </button>
         <button
-          name="right"
-          className="dce-toolbar-option"
+          className="dce-toolbar-option dce-toolbar-option-keyboard"
           onMouseDown={this.toggleShowKeyboard}
         >
           <Keyboard />

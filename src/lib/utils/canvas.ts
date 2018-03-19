@@ -87,7 +87,7 @@ export const getStyleSections = block => {
 /**
  * The function will return true if first character of the string is hebrew.
  */
-const isHebrew = str => {
+export const isHebrew = str => {
   var char = str.trim()[0];
   var position = char && char.search(/[\u0590-\u05FF]/);
   return position >= 0;

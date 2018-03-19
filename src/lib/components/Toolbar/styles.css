@@ -34,6 +34,9 @@
 .dce-toolbar-option-selected {
   box-shadow: 1px 1px 0px #bfbdbd inset;
 }
+.dce-toolbar-option-keyboard {
+  width: auto !important;
+}
 .dce-toolbar-separator {
   display: inline-block;
   margin-right: 10px;
@@ -52,26 +55,13 @@
   padding: 10px;
   height: 10px;
   margin-bottom: 5px;
+  margin-right: 5px;
 }
 .dce-sefaria-link:hover {
   box-shadow: 1px 1px 0px #bfbdbd;
 }
 .dce-sefaria-link:active {
   box-shadow: 1px 1px 0px #bfbdbd inset;
-}
-.dce-save-btn {
-  height: 32px;
-  background: white;
-  cursor: pointer;
-  border: 1px solid #f1f1f1;
-  border-radius: 3px;
-  margin-right: 5px;
-  text-transform: capitalize;
-  background: white;
-  padding: 0 30px;
-  font-size: 14px;
-  margin-bottom: 5px;
-  margin-left: 5px;
 }
 .dce-save-btn:hover {
   box-shadow: 1px 1px 0px #bfbdbd;
