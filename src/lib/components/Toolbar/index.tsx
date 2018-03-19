@@ -187,12 +187,6 @@ export class Toolbar extends Component<Props, State> {
           <AlignRight />
         </button>
         <Color editorState={editorState} onChange={onChange} />
-        <FontFamily
-          editorState={editorState}
-          onChange={onChange}
-          customFonts={customFonts}
-        />
-        <FontSize editorState={editorState} onChange={onChange} />
         <a
           target="_blank"
           className="dce-sefaria-link"
@@ -209,6 +203,12 @@ export class Toolbar extends Component<Props, State> {
         >
           <Keyboard />
         </button>
+        <FontFamily
+          editorState={editorState}
+          onChange={onChange}
+          customFonts={customFonts}
+        />
+        <FontSize editorState={editorState} onChange={onChange} />
         {showKeyboard && (
           <div className="dce-keyboard" onMouseDown={this.enterTextInEditor}>
             <button onClick={this.toggleShowKeyboard} className="dce-cross-btn">
