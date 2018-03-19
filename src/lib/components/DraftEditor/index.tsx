@@ -1,13 +1,21 @@
 import * as React from "react";
 import { Component } from "react";
-import { Editor, EditorState, RichUtils, convertFromRaw } from "draft-js";
+import { Editor, EditorState, RichUtils, convertFromRaw, Modifier } from "draft-js";
 import * as DraftJSUtils from "draftjs-utils";
 import { Toolbar } from "../Toolbar";
+import Cross from "../../../icons/cross";
 import { blockStyleFn, getEditorHeight, getStyleMap } from "../../utils/draft";
 import "../../../../node_modules/draft-js/dist/Draft.css";
 import "./styles.css";
 
 const customStyleMap = getStyleMap();
+
+const letters = [
+  ["~", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
+  ["/", "'", "ק", "ר", "א", "ט", "ו", "ן", "ם", "פ", "\\"],
+  ["ש", "ד", "ג", "כ", "ע", "י", "ח", "ל", "ך", "ף", ",", "]", "["],
+  ["ז", "ס", "ב", "ה", "נ", "מ", "צ", "ת", "ץ", "."]
+];
 
 export interface Props {
   editorState: EditorState;
@@ -17,7 +25,9 @@ export interface Props {
   onSave: Function;
 }
 
-export interface State {}
+export interface State {
+  showKeyboard: boolean;
+}
 
 /**
  * Editor component with DeraftJS Editor component as child.
@@ -27,6 +37,9 @@ export class DraftEditor extends Component<Props, State> {
 
   constructor(props) {
     super(props);
+    this.state = {
+      showKeyboard: false,
+    }
     if (props.defaultValue) {
       this.initializeEditor(props.defaultValue);
     }
@@ -70,15 +83,35 @@ export class DraftEditor extends Component<Props, State> {
     return false;
   };
 
+  enterTextInEditor = event => {
+    const { editorState, onChange } = this.props;
+    const contentState = Modifier.replaceText(
+      editorState.getCurrentContent(),
+      editorState.getSelection(),
+      event.target.id,
+      editorState.getCurrentInlineStyle()
+    );
+    onChange(EditorState.push(editorState, contentState, "insert-characters"));
+  };
+
+  toggleShowKeyboard = () => {
+    console.log('into toggleShowKeyboard')
+    this.setState({
+      showKeyboard: !this.state.showKeyboard
+    });
+  };
+
   render() {
+    const { showKeyboard } = this.state;
     const { editorState, onChange, customFonts, onSave } = this.props;
     return (
-      <div>
+      <div className="dce-editor-wrapper">
         <Toolbar
           editorState={editorState}
           onChange={onChange}
           customFonts={customFonts}
           onSave={onSave}
+          toggleShowKeyboard={this.toggleShowKeyboard}
         />
         <div className="dce-editor-container" onClick={this.focusEditor}>
           <Editor
@@ -91,6 +124,22 @@ export class DraftEditor extends Component<Props, State> {
             onChange={onChange}
           />
         </div>
+        {showKeyboard && (
+          <div className="dce-keyboard" onMouseDown={this.enterTextInEditor}>
+            <button onClick={this.toggleShowKeyboard} className="dce-cross-btn">
+              <Cross />
+            </button>
+            {letters.map((row, index) => (
+              <div key={`row-${index}`}>
+                {row.map(ch => (
+                  <span key={ch} className="dce-hebrew-char" id={ch}>
+                    {ch}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

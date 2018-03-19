@@ -15,3 +15,49 @@
 .dce-right-aligned-block > * {
   text-align: right !important;
 }
+.dce-editor-wrapper {
+  position: relative;
+}
+.dce-keyboard {
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  width: 500px;
+  z-index: 1;
+  background-color: white;
+  border: 1px solid #f1f1f1;
+}
+.dce-keyboard > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dce-hebrew-char {
+  width: 32px;
+  height: 32px;
+  margin-right: 5px;
+  border: 1px solid #f1f1f1;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 2px;
+}
+.dce-hebrew-char:hover {
+  box-shadow: 1px 1px 0px #bfbdbd;
+}
+.dce-hebrew-char:active {
+  box-shadow: 1px 1px 0px #bfbdbd inset;
+}
+.dce-cross-btn {
+  position: absolute;
+  right: -15px;
+  top: -12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.dce-cross-btn:focus {
+  outline: none;
+}

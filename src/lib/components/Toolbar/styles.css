@@ -6,7 +6,6 @@
   align-items: center;
   width: 490px;
   background-color: white;
-  position: relative;
   border-left: 1px solid #f1f1f1;
   border-right: 1px solid #f1f1f1;
 }
@@ -70,47 +69,5 @@
   box-shadow: 1px 1px 0px #bfbdbd inset;
 }
 .dce-save-btn:focus {
-  outline: none;
-}
-.dce-keyboard {
-  position: absolute;
-  bottom: -1px;
-  left: -1px;
-  width: 500px;
-  background-color: white;
-  border: 1px solid #f1f1f1;
-}
-.dce-keyboard > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.dce-hebrew-char {
-  width: 32px;
-  height: 32px;
-  margin-right: 5px;
-  border: 1px solid #f1f1f1;
-  border-radius: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin: 2px;
-}
-.dce-hebrew-char:hover {
-  box-shadow: 1px 1px 0px #bfbdbd;
-}
-.dce-hebrew-char:active {
-  box-shadow: 1px 1px 0px #bfbdbd inset;
-}
-.dce-cross-btn {
-  position: absolute;
-  right: -15px;
-  top: -12px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-.dce-cross-btn:focus {
   outline: none;
 }

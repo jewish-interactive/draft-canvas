@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { Editor, EditorState, RichUtils, Modifier } from "draft-js";
+import { Editor, EditorState, RichUtils } from "draft-js";
 import FontFamily from "./FontFamily";
 import FontSize from "./FontSize";
 import Color from "./Color";
@@ -13,24 +13,17 @@ import AlignRight from "../../../icons/alignRight";
 import AlignCenter from "../../../icons/alignCenter";
 import Sefaria from "../../../icons/sefaria";
 import Keyboard from "../../../icons/keyboard";
-import Cross from "../../../icons/cross";
 import Save from "../../../icons/save";
 import "./styles.css";
 
 const classNames = require("classnames");
-
-const letters = [
-  ["~", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
-  ["/", "'", "ק", "ר", "א", "ט", "ו", "ן", "ם", "פ", "\\"],
-  ["ש", "ד", "ג", "כ", "ע", "י", "ח", "ל", "ך", "ף", ",", "]", "["],
-  ["ז", "ס", "ב", "ה", "נ", "מ", "צ", "ת", "ץ", "."]
-];
 
 export interface Props {
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
   customFonts?: any[];
   onSave: any;
+  toggleShowKeyboard: any;
 }
 
 export interface State {
@@ -107,23 +100,6 @@ export class Toolbar extends Component<Props, State> {
     }
   };
 
-  toggleShowKeyboard = () => {
-    this.setState({
-      showKeyboard: !this.state.showKeyboard
-    });
-  };
-
-  enterTextInEditor = event => {
-    const { editorState, onChange } = this.props;
-    const contentState = Modifier.replaceText(
-      editorState.getCurrentContent(),
-      editorState.getSelection(),
-      event.target.id,
-      editorState.getCurrentInlineStyle()
-    );
-    onChange(EditorState.push(editorState, contentState, "insert-characters"));
-  };
-
   render() {
     const { editorState, onChange, customFonts, onSave } = this.props;
     const { showKeyboard, currentStyles } = this.state;
@@ -196,7 +172,7 @@ export class Toolbar extends Component<Props, State> {
         </a>
         <button
           className="dce-toolbar-option dce-toolbar-option-keyboard"
-          onMouseDown={this.toggleShowKeyboard}
+          onMouseDown={this.props.toggleShowKeyboard}
         >
           <Keyboard />
         </button>
@@ -209,22 +185,6 @@ export class Toolbar extends Component<Props, State> {
           customFonts={customFonts}
         />
         <FontSize editorState={editorState} onChange={onChange} />
-        {showKeyboard && (
-          <div className="dce-keyboard" onMouseDown={this.enterTextInEditor}>
-            <button onClick={this.toggleShowKeyboard} className="dce-cross-btn">
-              <Cross />
-            </button>
-            {letters.map((row, index) => (
-              <div key={`row-${index}`}>
-                {row.map(ch => (
-                  <span key={ch} className="dce-hebrew-char" id={ch}>
-                    {ch}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     );
   }
