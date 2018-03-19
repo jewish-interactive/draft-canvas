@@ -1,7 +1,7 @@
 import * as React from "react";
 
 const sefaria = () => (
-  <svg width="96px" height="22px" viewBox="0 0 193 44">
+  <svg width="80px" height="22px" viewBox="0 0 193 44">
     <defs></defs>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="Icons_Jyoti_SVG-(1)" transform="translate(-22.000000, -15.000000)">
