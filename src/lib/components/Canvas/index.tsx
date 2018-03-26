@@ -27,7 +27,7 @@ export class Canvas extends Component<Props, State> {
     const { editorState, setDimensions } = props;
     if (this.props.editorState !== editorState) {
       const ctx = this.canvas.getContext("2d");
-      ctx.clearRect(0, 0, 500, 500);
+      ctx.clearRect(0, 0, 300, 500);
       const blocks = getBlockArray(editorState);
       let y = 0;
       let x = 0;
@@ -98,7 +98,7 @@ export class Canvas extends Component<Props, State> {
       <canvas
         ref={this.getCanvasRef}
         className="dce-canvas"
-        height="500"
+        height="300"
         width="500"
       />
     );
