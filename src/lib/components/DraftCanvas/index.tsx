@@ -1,14 +1,19 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Component } from "react";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, RawDraftContentState } from "draft-js";
 import { DraftEditor } from "../DraftEditor";
 import { Canvas } from "../Canvas";
 import "./styles.css";
 
 export interface Props {
   customFonts?: any[];
-  onSave?: Function;
+  onSave?: ({
+      editorRef:any,
+      editorState: EditorState,
+      rawDraftContentState: RawDraftContentState,
+      canvas: HTMLCanvasElement
+  }) => void;
   defaultValue?: object;
 }
 
@@ -47,7 +52,7 @@ export class DraftCanvas extends Component<Props, State> {
     const ctx = newCanvas.getContext("2d");
     ctx.clearRect(0, 0, width, height);
     ctx.drawImage(this.canvas, x1, 0, x2, height, 0, 0, x2, height);
-    this.props.onSave({ editor: this.editor, editorState, rawDraftContentState, canvas: newCanvas });
+    this.props.onSave({ editorRef: this.editor, editorState, rawDraftContentState, canvas: newCanvas });
   };
 
 
