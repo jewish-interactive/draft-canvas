@@ -22,6 +22,7 @@ export interface State {
  */
 export class DraftCanvas extends Component<Props, State> {
   canvas = undefined;
+    editor:DraftEditor;
   constructor(props) {
     super(props);
     this.state = {
@@ -46,8 +47,9 @@ export class DraftCanvas extends Component<Props, State> {
     const ctx = newCanvas.getContext("2d");
     ctx.clearRect(0, 0, width, height);
     ctx.drawImage(this.canvas, x1, 0, x2, height, 0, 0, x2, height);
-    this.props.onSave({ rawDraftContentState, canvas: newCanvas });
+    this.props.onSave({ editor: this.editor, editorState, rawDraftContentState, canvas: newCanvas });
   };
+
 
   setCanvasRef = canvas => {
     this.canvas = canvas;
@@ -65,6 +67,7 @@ export class DraftCanvas extends Component<Props, State> {
         <DraftEditor
           defaultValue={defaultValue}
           customFonts={customFonts}
+            onEditorRef={editor => this.editor = editor}
           editorState={editorState}
           onChange={this.onChange}
           onSave={this.onSave}

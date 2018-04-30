@@ -19,6 +19,7 @@ const letters = [
 
 export interface Props {
   editorState: EditorState;
+    onEditorRef?: (editor:DraftEditor) => void;
   onChange: (editorState: EditorState) => void;
   customFonts?: any[];
   defaultValue?: object;
@@ -58,6 +59,9 @@ export class DraftEditor extends Component<Props, State> {
   };
 
   setEditorReference = ref => {
+      if(this.props.onEditorRef) {
+          this.props.onEditorRef(ref);
+      }
     this.editor = ref;
   };
 
