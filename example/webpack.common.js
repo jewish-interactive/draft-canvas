@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -16,10 +17,16 @@ module.exports = {
     module: {
         rules: [
             {
-              enforce: "pre",
-              test: /\.tsx?$/,
-              exclude: ["node_modules"],
-              use: ["awesome-typescript-loader", "source-map-loader"]
+                enforce: "pre",
+                test: /\.tsx?$/,
+                exclude: ["node_modules"],
+                use: [
+                    {
+                        loader: "ts-loader", 
+                        options: { transpileOnly: true }
+                    },
+                    "source-map-loader"
+                ]
             },
             { test: /\.html$/, loader: "html-loader" },
             { test: /\.css$/, loaders: ["style-loader", "css-loader"] },
@@ -33,9 +40,9 @@ module.exports = {
         }
     },
     plugins: [
-        
+
         new CleanWebpackPlugin(['dist']),
-        
+
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/webpage/index.html'),
             hash: true,
@@ -45,8 +52,9 @@ module.exports = {
             'process.env': {
                 'NODE_ENV': JSON.stringify(process.env['NODE_ENV'])
             }
-          }),
+        }),
+        new ForkTsCheckerWebpackPlugin()
     ],
 
-    
+
 };

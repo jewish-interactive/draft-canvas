@@ -1,9 +1,9 @@
 import * as React from "react";
 import { PureComponent } from "react";
-import "./styles.css";
+import "./Dropdown-Option-Styles.css";
 
-const classNames = require("classnames");
 
+import {classNames} from "../../../utils/Classnames"; 
 export interface Props {
   children: any;
   value: any;
@@ -14,7 +14,7 @@ export interface Props {
   highlighted?: boolean;
 }
 
-export default class Option extends PureComponent<Props, any> {
+export class Option extends PureComponent<Props, any> {
   onClick = () => {
     const { onSelect, value } = this.props;
     onSelect(value);

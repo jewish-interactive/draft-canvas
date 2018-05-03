@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Component } from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
-import { Dropdown, Option } from "../../Dropdown";
-import { fontFamilies } from "../../../utils/draft";
+import { Dropdown } from "../../Dropdown/Dropdown";
+import {Option} from "../../Dropdown/Option/Dropdown-Option";
+import { fontFamilies } from "../../../utils/Draft-Utils";
 import * as DraftJSUtils from "draftjs-utils";
-
 export interface Props {
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
@@ -16,7 +16,7 @@ export interface State {
   allFonts: any[];
 }
 
-export default class FontFamily extends Component<Props, State> {
+export class FontFamily extends Component<Props, State> {
   state = {
     currentFontFamily: "",
     allFonts: fontFamilies

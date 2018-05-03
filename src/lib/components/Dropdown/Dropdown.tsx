@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Component } from "react";
-import "./styles.css";
+import "./Dropdown-Styles.css";
 
-const classNames = require("classnames");
 
+import {classNames} from "../../utils/Classnames"; 
 export interface Props {
   children: any;
   onChange: Function;
@@ -16,7 +16,7 @@ export interface State {
   expanded: boolean;
 }
 
-export default class Dropdown extends Component<Props, State> {
+export class Dropdown extends Component<Props, State> {
   state = {
     highlighted: -1,
     expanded: false

@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Component } from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
-import { Dropdown, Option } from "../../Dropdown";
-import { fontSizes } from "../../../utils/draft";
+import { Dropdown} from "../../Dropdown/Dropdown";
+import {Option} from "../../Dropdown/Option/Dropdown-Option";
+import { fontSizes } from "../../../utils/Draft-Utils";
 import * as DraftJSUtils from "draftjs-utils";
 
 export interface Props {
@@ -14,7 +15,7 @@ export interface State {
   currentFontSize?: string;
 }
 
-export default class FontFamily extends Component<Props, State> {
+export class FontSize extends Component<Props, State> {
   componentWillMount(): void {
     const { editorState } = this.props;
     const fontSize = DraftJSUtils.getSelectionCustomInlineStyle(editorState, [

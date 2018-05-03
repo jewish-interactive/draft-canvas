@@ -3,7 +3,9 @@ import * as ReactDOM from "react-dom";
 import { Component } from "react";
 import { DraftCanvas } from "lib/Lib";
 import "./styles.css";
-import {RawDraftContentState} from "draft-js";
+import {ContentState, convertToRaw, RawDraftContentState} from "draft-js";
+import htmlToDraftPlugin from 'html-to-draftjs';
+import draftToHtmlPlugin from 'draftjs-to-html';
 
 declare global {
   namespace JSX {
@@ -16,6 +18,7 @@ declare global {
 export interface Props {
     defaultValue;
     onSave;
+    setSaveTrigger;
 }
 
 interface State {
@@ -49,7 +52,9 @@ class Container extends Component<Props, State> {
     return (
       <div className="dce-canvas-container">
         <DraftCanvas
-          onSave={obj => {
+            useCanvas={true}
+            setSaveTrigger={this.props.setSaveTrigger}
+            onSave={obj => {
             console.log(obj);
             this.setState({
               canvas: obj.canvas
@@ -65,10 +70,12 @@ class Container extends Component<Props, State> {
 }
 
 class App extends Component<{}, {visible: boolean, defaultValue:any}> {
+    private doSave: () => void;
     constructor(props) {
         super(props);
 
         this.onSave = this.onSave.bind(this);
+        this.setSaveTrigger = this.setSaveTrigger.bind(this);
 
         this.state = {
             visible: true,
@@ -93,16 +100,52 @@ class App extends Component<{}, {visible: boolean, defaultValue:any}> {
     }
 
     onSave(obj) {
-        this.setState({defaultValue: obj.rawDraftContentState});
+        this.setState({
+            defaultValue: obj.rawDraftContentState,
+        });
+    }
+
+
+    setSaveTrigger(callback:() => void) {
+        this.doSave = callback;
+    }
+
+    doRoundTrip() {
+        const html = draftToHtmlPlugin(this.state.defaultValue);
+
+        console.log(html);
+
+        const blocksFromHTML = htmlToDraftPlugin(html);
+        const {contentBlocks, entityMap} = blocksFromHTML;
+
+
+        const contentState = ContentState.createFromBlockArray(
+            contentBlocks,
+            entityMap
+        );
+     
+        const raw = convertToRaw(contentState);
+
+        console.log(raw);
+
+        this.setState({defaultValue: raw});
     }
 
     render() {
         return (
             <React.Fragment>
-                <button onClick={() => this.setState({visible: !this.state.visible})}>
-                    {this.state.visible ? "Hide" : "Show"}
+                <button onClick={() => this.doSave()}>
+                    Save 
                 </button> 
-                {this.state.visible ? <Container defaultValue={this.state.defaultValue} onSave={this.onSave} /> : null}
+                <button onClick={() => this.setState({visible: !this.state.visible})}>
+                    {this.state.visible ? "Hide" : "Show"} 
+                </button> 
+
+                <button onClick={() => this.doRoundTrip()}>
+                    Roundtrip
+                </button> 
+
+                {this.state.visible ? <Container setSaveTrigger={this.setSaveTrigger} defaultValue={this.state.defaultValue} onSave={this.onSave} /> : null}
             </React.Fragment>
         )
     }

@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Component } from "react";
-import { Editor, EditorState, RichUtils, convertFromRaw, Modifier } from "draft-js";
+import { RawDraftContentState, Editor, EditorState, RichUtils, convertFromRaw, Modifier } from "draft-js";
 import * as DraftJSUtils from "draftjs-utils";
-import { Toolbar } from "../Toolbar";
+import { Toolbar } from "../Toolbar/Toolbar";
 import Cross from "../../../icons/cross";
-import { blockStyleFn, getEditorHeight, getStyleMap } from "../../utils/draft";
+import { blockStyleFn, getEditorHeight, getStyleMap } from "../../utils/Draft-Utils";
 import "../../../../node_modules/draft-js/dist/Draft.css";
-import "./styles.css";
+import "./DraftEditor-Styles.css";
 
 const customStyleMap = getStyleMap();
 
@@ -19,11 +19,11 @@ const letters = [
 
 export interface Props {
   editorState: EditorState;
-    onEditorRef?: (editor:DraftEditor) => void;
-  onChange: (editorState: EditorState) => void;
+    editorRef: React.RefObject<Editor>;
+    onChange: (editorState: EditorState) => void;
   customFonts?: any[];
-  defaultValue?: object;
-  onSave: Function;
+  defaultValue?: RawDraftContentState;
+onSave: Function;
 }
 
 export interface State {
@@ -34,7 +34,6 @@ export interface State {
  * Editor component with DeraftJS Editor component as child.
  */
 export class DraftEditor extends Component<Props, State> {
-  editor: DraftEditor = undefined;
 
   constructor(props) {
     super(props);
@@ -58,15 +57,9 @@ export class DraftEditor extends Component<Props, State> {
     this.props.onChange(EditorState.moveSelectionToEnd(editorState));
   };
 
-  setEditorReference = ref => {
-      if(this.props.onEditorRef) {
-          this.props.onEditorRef(ref);
-      }
-    this.editor = ref;
-  };
 
   focusEditor = () => {
-    (this.editor as any).focus();
+    (this.props.editorRef.current as any).focus();
   };
 
   handleKeyCommand: any = command => {
@@ -119,7 +112,7 @@ export class DraftEditor extends Component<Props, State> {
         />
         <div className="dce-editor-container" onClick={this.focusEditor}>
           <Editor
-            ref={this.setEditorReference}
+            ref={this.props.editorRef}
             customStyleMap={customStyleMap}
             blockStyleFn={blockStyleFn}
             handleKeyCommand={this.handleKeyCommand}

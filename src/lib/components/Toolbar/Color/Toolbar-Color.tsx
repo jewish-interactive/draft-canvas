@@ -1,12 +1,14 @@
 import * as React from "react";
 import { Component } from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
-import { colors } from "../../../utils/draft";
+import { colors } from "../../../utils/Draft-Utils";
 import Color from "../../../../icons/color";
 import * as DraftJSUtils from "draftjs-utils";
-import "./styles.css";
+import "./Toolbar-Color-Styles.css";
 
-const classNames = require("classnames");
+
+import {classNames} from "../../../utils/Classnames"; 
+
 
 export interface Props {
   editorState: EditorState;
@@ -21,7 +23,7 @@ export interface State {
   currentBgColor: string;
 }
 
-export default class FontFamily extends Component<Props, State> {
+export class FontColor extends Component<Props, State> {
   state = {
     currentTextColor: "",
     expanded: false,

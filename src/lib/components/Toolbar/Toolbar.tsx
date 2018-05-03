@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Component } from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
-import FontFamily from "./FontFamily";
-import FontSize from "./FontSize";
-import Color from "./Color";
+import {FontFamily} from "./FontFamily/Toolbar-FontFamily";
+import {FontSize} from "./FontSize/Toolbar-FontSize";
+import {FontColor} from "./Color/Toolbar-Color";
 import * as DraftJSUtils from "draftjs-utils";
 import Bold from "../../../icons/bold";
 import Italic from "../../../icons/italic";
@@ -14,9 +14,9 @@ import AlignCenter from "../../../icons/alignCenter";
 import Sefaria from "../../../icons/sefaria";
 import Keyboard from "../../../icons/keyboard";
 import Save from "../../../icons/save";
-import "./styles.css";
+import "./Toolbar-Styles.css";
 
-const classNames = require("classnames");
+import {classNames} from "../../utils/Classnames"; 
 
 export interface Props {
   editorState: EditorState;
@@ -162,7 +162,7 @@ export class Toolbar extends Component<Props, State> {
         >
           <AlignRight />
         </button>
-        <Color editorState={editorState} onChange={onChange} />
+        <FontColor editorState={editorState} onChange={onChange} />
         <a
           target="_blank"
           className="dce-sefaria-link"
@@ -176,9 +176,13 @@ export class Toolbar extends Component<Props, State> {
         >
           <Keyboard />
         </button>
+        {
+            /* Hidden for now
         <button className="dce-toolbar-option" onMouseDown={onSave}>
           <Save />
         </button>
+        */
+        }
         <FontFamily
           editorState={editorState}
           onChange={onChange}
