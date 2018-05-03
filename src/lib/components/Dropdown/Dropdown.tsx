@@ -3,7 +3,8 @@ import { Component } from "react";
 import "./Dropdown-Styles.css";
 
 
-import {classNames} from "../../utils/Classnames"; 
+import {classNames} from "../../utils/Imports";
+
 export interface Props {
   children: any;
   onChange: Function;

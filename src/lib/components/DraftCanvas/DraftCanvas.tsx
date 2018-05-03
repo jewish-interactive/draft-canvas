@@ -5,18 +5,19 @@ import { Editor, EditorState, convertToRaw, RawDraftContentState } from "draft-j
 import { DraftEditor } from "../DraftEditor/DraftEditor";
 import { CanvasContainer } from "../Canvas/Canvas";
 import "./DraftCanvas-Styles.css";
+import draftToHtmlPlugin from "draftjs-to-html";
 
-export interface Save {
-    content: RawDraftContentState;
+export interface SaveData {
+    html:string; 
+    raw: RawDraftContentState;
     canvas?: HTMLCanvasElement;
 }
 
 export interface Props {
     customFonts?: any[];
     useCanvas?: boolean;
-    setSaveTrigger?:(fn:() => void) => void;
-    onSave?: (save:Save) => void;
-    defaultValue?: RawDraftContentState 
+    onSave?: (save:SaveData) => void;
+    defaultValue?: string | RawDraftContentState 
 }
 
 export interface State {
@@ -42,42 +43,39 @@ export class DraftCanvas extends Component<Props, State> {
         }
         this.editorRef = React.createRef<Editor>();
 
-        this._onSave = this._onSave.bind(this);
-
-        if(this.props.setSaveTrigger) {
-            this.props.setSaveTrigger(this._onSave);
-        }
+        this.save = this.save.bind(this);
     }
 
     onChange = editorState => {
         this.setState({ editorState });
     };
 
-    _onSave = () => {
+    public save() {
         if(!this.props.onSave) {
             return;
         }
         const { editorState} = this.state;
-        const content = convertToRaw(editorState.getCurrentContent());
-        
-        if(!this.props.useCanvas) {
-            this.props.onSave({content});
-            return;
+        const raw = convertToRaw(editorState.getCurrentContent());
+        const html = draftToHtmlPlugin(raw, undefined, true); 
+
+        const saveData:SaveData = {raw, html};
+
+        if(this.props.useCanvas) {
+            const {dimensions} = this.state;
+            const { width, height, dir } = dimensions;
+            const x1 = dir.left ? 0 : 500 - width;
+            const x2 = dir.right ? 500 : width;
+            const newCanvas = document.createElement("canvas");
+            newCanvas.width = width;
+            newCanvas.height = height;
+            newCanvas.setAttribute("style", `height: ${height}px;width:${width}px;`);
+            const ctx = newCanvas.getContext("2d");
+            ctx.clearRect(0, 0, width, height);
+            ctx.drawImage(this.canvasRef.current, x1, 0, x2, height, 0, 0, x2, height);
+            saveData.canvas = newCanvas;
         }
 
-
-        const {dimensions} = this.state;
-        const { width, height, dir } = dimensions;
-        const x1 = dir.left ? 0 : 500 - width;
-        const x2 = dir.right ? 500 : width;
-        const newCanvas = document.createElement("canvas");
-        newCanvas.width = width;
-        newCanvas.height = height;
-        newCanvas.setAttribute("style", `height: ${height}px;width:${width}px;`);
-        const ctx = newCanvas.getContext("2d");
-        ctx.clearRect(0, 0, width, height);
-        ctx.drawImage(this.canvasRef.current, x1, 0, x2, height, 0, 0, x2, height);
-        this.props.onSave({  content, canvas: newCanvas });
+        this.props.onSave(saveData);
     };
 
 
@@ -90,19 +88,19 @@ export class DraftCanvas extends Component<Props, State> {
         const { customFonts, defaultValue } = this.props;
         return (
             <div className="dce-container">
-                <DraftEditor
-                    defaultValue={defaultValue}
-                    customFonts={customFonts}
-                    editorRef={this.editorRef}
-                    editorState={editorState}
-                    onChange={this.onChange}
-                    onSave={this._onSave}
+            <DraftEditor
+                defaultValue={defaultValue}
+                customFonts={customFonts}
+                editorRef={this.editorRef}
+                editorState={editorState}
+                onChange={this.onChange}
+                onSave={this.save}
             />
             {this.props.useCanvas &&
                 <CanvasContainer
-                    editorState={editorState}
-                    canvasRef={this.canvasRef}
-                    setDimensions={this.setDimensions}
+                editorState={editorState}
+                canvasRef={this.canvasRef}
+                setDimensions={this.setDimensions}
                 />
             }
             </div>

@@ -1,6 +1,6 @@
 {
     "name": "draft-canvas",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Draft to Canvas",
     "main": "dist/draft-canvas.cjs.js",
     "module": "dist/draft-canvas.esm.js",
@@ -66,7 +66,9 @@
     "dependencies": {
         "classnames": "^2.2.5",
         "draft-js": "0.10.5",
+        "draftjs-to-html": "0.8.3",
         "draftjs-utils": "^0.9.4",
+        "html-to-draftjs": "1.4.0",
         "react": "16.3.2",
         "react-dom": "16.3.2"
     }

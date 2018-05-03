@@ -2,6 +2,8 @@ import typescript from "rollup-plugin-typescript2";
 import pkg from "./package.json";
 import replace from "rollup-plugin-replace";
 import postcss from "rollup-plugin-postcss";
+import commonjs from 'rollup-plugin-commonjs';
+
 
 export default [
     {
@@ -12,6 +14,7 @@ export default [
             { file: pkg.main, format: "cjs", sourcemap: true }
         ],
         plugins: [
+            commonjs({}),
             postcss({
                 extensions: [".css"]
             }),

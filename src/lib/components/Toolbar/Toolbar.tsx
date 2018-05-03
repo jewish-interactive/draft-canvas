@@ -16,7 +16,7 @@ import Keyboard from "../../../icons/keyboard";
 import Save from "../../../icons/save";
 import "./Toolbar-Styles.css";
 
-import {classNames} from "../../utils/Classnames"; 
+import {classNames} from "../../utils/Imports";
 
 export interface Props {
   editorState: EditorState;

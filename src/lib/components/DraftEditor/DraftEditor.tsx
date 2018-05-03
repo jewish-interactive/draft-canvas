@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Component } from "react";
-import { RawDraftContentState, Editor, EditorState, RichUtils, convertFromRaw, Modifier } from "draft-js";
+import { ContentState, convertToRaw, RawDraftContentState, Editor, EditorState, RichUtils, convertFromRaw, Modifier } from "draft-js";
 import * as DraftJSUtils from "draftjs-utils";
 import { Toolbar } from "../Toolbar/Toolbar";
 import Cross from "../../../icons/cross";
 import { blockStyleFn, getEditorHeight, getStyleMap } from "../../utils/Draft-Utils";
 import "../../../../node_modules/draft-js/dist/Draft.css";
 import "./DraftEditor-Styles.css";
+import htmlToDraftPlugin from "html-to-draftjs";
 
 const customStyleMap = getStyleMap();
 
@@ -19,15 +20,21 @@ const letters = [
 
 export interface Props {
   editorState: EditorState;
-    editorRef: React.RefObject<Editor>;
-    onChange: (editorState: EditorState) => void;
+  editorRef: React.RefObject<Editor>;
+  onChange: (editorState: EditorState) => void;
   customFonts?: any[];
-  defaultValue?: RawDraftContentState;
-onSave: Function;
+  defaultValue?: string | RawDraftContentState;
+  onSave: () => void;
 }
 
 export interface State {
   showKeyboard: boolean;
+}
+
+const convertFromHtml = (html:string):ContentState => {
+    const blocksFromHTML = htmlToDraftPlugin(html);
+    const {contentBlocks, entityMap} = blocksFromHTML;
+    return ContentState.createFromBlockArray(contentBlocks, entityMap);
 }
 
 /**
@@ -51,8 +58,11 @@ export class DraftEditor extends Component<Props, State> {
     }
   }
 
-  initializeEditor = rawContentState => {
-    const contentState = convertFromRaw(rawContentState);
+  initializeEditor = (initialValue:string | RawDraftContentState) => {
+    const contentState = typeof initialValue !== "string"
+        ?   convertFromRaw(initialValue)
+        :   convertFromHtml(initialValue);
+
     const editorState = EditorState.createWithContent(contentState);
     this.props.onChange(EditorState.moveSelectionToEnd(editorState));
   };

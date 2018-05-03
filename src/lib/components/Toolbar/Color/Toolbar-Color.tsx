@@ -7,7 +7,7 @@ import * as DraftJSUtils from "draftjs-utils";
 import "./Toolbar-Color-Styles.css";
 
 
-import {classNames} from "../../../utils/Classnames"; 
+import {classNames} from "../../../utils/Imports"; 
 
 
 export interface Props {

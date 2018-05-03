@@ -6,9 +6,9 @@
 
 # Development
 
-The easiest way to develop the library is to cd to the [example/](example/) folder and `npm run dev:auto-reload` (or just `npm run dev` if you don't want auto-reloading on save)
+The easiest way to develop the library is to run `npm run example` and hack away (the demo app is in `example/`) 
 
-This is because while the _example_ is setup to mimic a live app, it does not install `draft-canvas` through npm. Rather, it references the local code directly via the `lib/Lib` alias.
+This works without having to setup a separate project with `npm link`, since it references the local code directly via the `lib/Lib` alias.
 
 In this way, you can see the live changes while developing, without cluttering the library build with the examples's dependencies :)
 
