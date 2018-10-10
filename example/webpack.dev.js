@@ -18,7 +18,7 @@ module.exports = merge(common, {
     devServer: {
         contentBase: path.resolve(__dirname, './src/webpage'),
         compress: true,
-        port: 3000,
+        port: 3001,
         headers: { "Access-Control-Allow-Origin": "*" },
         historyApiFallback: {
             disableDotRule: true
